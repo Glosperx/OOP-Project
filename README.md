@@ -1,4 +1,4 @@
-# Titlu proiect
+# SuperMario
 
 ## Descriere proiect
 Un fork de Super Mario dezvoltat in C++ folosind biblioteca SFML.
