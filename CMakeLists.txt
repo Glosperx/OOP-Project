@@ -45,7 +45,21 @@ include(cmake/Options.cmake)
 add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
+        Game.h
+        Game.cpp
+        Entity.cpp
+        Entity.h
+        Player.cpp
+        Player.h
 )
+set(SFML_STATIC_LIBRARIES TRUE)
+set(SFML_DIR C:/SFML/lib/cmake/SFML)
+
+find_package(SFML COMPONENTS system window graphics audio REQUIRED)
+include_directories(C:/SFML/include)
+
+target_link_libraries(oop sfml-graphics sfml-window sfml-system)
+
 
 include(cmake/CompilerFlags.cmake)
 
