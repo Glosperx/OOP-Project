@@ -20,7 +20,7 @@ private:
     Player Mario;
 
 public:
-    Game(std::string name = "SuperMario");
+    explicit Game(std::string name = "SuperMario");
     Game(const Game& other);
     Game &operator=(const Game &other);
     virtual ~Game();

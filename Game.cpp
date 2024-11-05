@@ -26,14 +26,14 @@ void Game::gwindow() {
         window.display();
     }
 }
+
+Game::Game(std::string name) : name(name), Mario({50.0f, 50.0f}) {
+    gwindow();
+}
 std::ostream& operator<<(std::ostream& os, const Game& game) {
     os << "Numele jocului: " << game.name << std::endl;
     os << "Poziția lui Mario: " << game.Mario.getPosition().x << ", " << game.Mario.getPosition().y << std::endl;
     return os;
-}
-
-Game::Game(std::string name) : name(name), Mario({50.0f, 50.0f}) {
-    gwindow();
 }
 
 Game::~Game() {

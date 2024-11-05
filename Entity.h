@@ -25,7 +25,6 @@ public:
     }
     virtual ~Entity() = default;
     void setTexture(const sf::Texture &texture);
-    virtual void update(const float& dt);
     void render(sf::RenderWindow& window) const;
     const sf::FloatRect& getHitbox() const;
     sf::Vector2f getVelocity() const;
@@ -33,9 +32,7 @@ public:
     float getSpeed() const;
     void setSpeed(float _speed);
     virtual void move(const float &dt);
-    virtual void update(float &dt) {
-        hitbox = sprite.getGlobalBounds();
-    }
+    virtual void update(float dt);
     friend std::ostream& operator<<(std::ostream& os, const Entity& entity);
 };
 

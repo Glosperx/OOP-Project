@@ -14,7 +14,7 @@ void Entity::move(const float &dt) {
     hitbox = sprite.getGlobalBounds();
 }
 
-void Entity::update(const float &dt) {
+void Entity::update(float dt) {
     hitbox = sprite.getGlobalBounds();
 }
 void Entity::setTexture(const sf::Texture &texture) {

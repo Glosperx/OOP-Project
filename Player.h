@@ -11,6 +11,7 @@ class Player:public Entity
 {
 public:
 
+    Player()=default ;
     Player(const sf::Vector2f& position);
     ~Player() override = default;
     void update(float &dt);
