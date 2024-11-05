@@ -16,7 +16,9 @@ public:
     void update(float &dt);
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     sf::Vector2f getPosition() const;
+    void reduceHP(float amount);
 private:
+    float hp=100;
     sf::Texture playertexture;
 
 };
