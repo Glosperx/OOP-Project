@@ -10,7 +10,7 @@
 
 class Entity
 {
-private:
+protected:
     sf::Vector2f velocity;
     sf::Sprite sprite;
     sf::FloatRect hitbox;
@@ -19,37 +19,24 @@ private:
 public:
     Entity();
     Entity(const sf::Texture& texture, const sf::Vector2f& position);
+    Entity(const sf::Vector2f& initialPosition, float initialSpeed)
+        : velocity(0.f, 0.f), speed(initialSpeed) {
+        sprite.setPosition(initialPosition);
+    }
     virtual ~Entity() = default;
-
-
+    void setTexture(const sf::Texture &texture);
     virtual void update(const float& dt);
-    void render(sf::RenderWindow& window);
-    const sf::FloatRect& getHitbox() const
-    {
-        return hitbox;
-    }
-
-    sf::Vector2f getVelocity() const {
-        return this->velocity;
-    }
-
-    void setVelocity(const sf::Vector2f& vel) {
-        this->velocity = vel;
-    }
-
-    float getSpeed() const {
-        return this->speed;
-    }
-
-    void setSpeed(float spd) {
-        this->speed = spd;
-    }
-
+    void render(sf::RenderWindow& window) const;
+    const sf::FloatRect& getHitbox() const;
+    sf::Vector2f getVelocity() const;
+    void setVelocity(const sf::Vector2f& vel);
+    float getSpeed() const;
+    void setSpeed(float _speed);
     virtual void move(const float &dt);
-
     virtual void update(float &dt) {
         hitbox = sprite.getGlobalBounds();
     }
+    friend std::ostream& operator<<(std::ostream& os, const Entity& entity);
 };
 
 #endif //ENTITY_H

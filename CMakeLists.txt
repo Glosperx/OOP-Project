@@ -51,6 +51,8 @@ add_executable(${PROJECT_NAME}
         Entity.h
         Player.cpp
         Player.h
+        Enemy.cpp
+        Enemy.h
 )
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)

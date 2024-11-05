@@ -6,6 +6,8 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
+#include "Player.h"
+#include "Entity.h"
 
 class Game {
 private:
@@ -14,14 +16,17 @@ private:
     sf::RenderWindow window;
     sf::Event event{};
     sf::Clock clock;
+    std::string name;
+    Player Mario;
 
 public:
-    Game();
+    Game(std::string name = "SuperMario");
     Game(const Game& other);
     Game &operator=(const Game &other);
     virtual ~Game();
 
     void update();
     void render();
+    friend std::ostream& operator<<(std::ostream& os, const Game& game);
 };
 #endif //GAME_H

@@ -6,7 +6,7 @@
 
 int main() {
 
-    Game game;
+    Game game("Cisco");
 
     Helper helper;
     helper.help();
