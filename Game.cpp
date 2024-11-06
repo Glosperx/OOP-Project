@@ -6,6 +6,7 @@ void Game::gwindow() {
     sf::VideoMode resolution = sf::VideoMode(1920, 1080);
     window.create(resolution, name);
     window.setFramerateLimit(120);
+    window.setVerticalSyncEnabled(true);
     sf::Clock clock;
 
     while (window.isOpen())
@@ -17,6 +18,7 @@ void Game::gwindow() {
                 window.close();
         }
         std::cout << Mario;
+        std::cout << enemy1<<"\n";
 
         float dt = clock.restart().asSeconds();
         window.clear(sf::Color::White);

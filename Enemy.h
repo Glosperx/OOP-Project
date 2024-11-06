@@ -10,7 +10,7 @@
 
 class Enemy:public Entity {
 private:
-    float hp;
+    float hp=100;
     int damage;
 public:
     Enemy()=default;
@@ -20,7 +20,7 @@ public:
     ~Enemy();
 
     void dealDamage(Player& player);
-    void update(float dt);
+    void update(float &dt) override;
     friend std::ostream& operator<<(std::ostream& os, const Enemy& enemy);
 };
 

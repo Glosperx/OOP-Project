@@ -14,7 +14,7 @@ public:
     Player()=default ;
     Player(const sf::Vector2f& position);
     ~Player() override = default;
-    void update(float &dt);
+    void update(float &dt) override;
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     sf::Vector2f getPosition() const;
     void reduceHP(float amount);

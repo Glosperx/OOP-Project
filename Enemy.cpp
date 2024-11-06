@@ -4,13 +4,17 @@
 
 #include "Enemy.h"
 
+
+Entity::Entity() = default;
+
+
 Enemy::Enemy(const sf::Texture& texture, const sf::Vector2f& position)
     : Entity(texture, position), hp(100), damage(10) {
 }
 
 
 Enemy::~Enemy() {}
-void Enemy::update(float dt) {
+void Enemy::update(float &dt) {
     Entity::update(dt);
 }
 

@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "Entity.h"
+#include "Enemy.h"
 
 class Game {
 private:
@@ -18,6 +19,7 @@ private:
     sf::Clock clock;
     std::string name;
     Player Mario;
+    Enemy enemy1;
 
 public:
     explicit Game(std::string name = "SuperMario");

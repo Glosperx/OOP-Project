@@ -7,9 +7,7 @@
 int main() {
 
     Game game("Cisco");
+    std::cout<<game;
 
-    Helper helper;
-    helper.help();
-    ///////////////////////////////////////////////////////////////////////////
     return 0;
 }

@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(cmake/Options.cmake)
+include(FetchContent)
 
 ###############################################################################
 
@@ -41,7 +42,15 @@ include(cmake/Options.cmake)
 
 ###############################################################################
 
-# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
+# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name
+#FetchContent_Declare(
+#        SFML
+#        GIT_REPOSITORY https://github.com/SFML/SFML.git
+#        GIT_TAG 2.6.1
+#)
+#
+#FetchContent_MakeAvailable(SFML)
+
 add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
@@ -56,17 +65,29 @@ add_executable(${PROJECT_NAME}
         Health.cpp
         Health.h
 )
+
+set(SFML_STATIC_LIBRARIES TRUE)
+
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)
+include_directories(C:/SFML/include)
 
 find_package(SFML COMPONENTS system window graphics audio REQUIRED)
-include_directories(C:/SFML/include)
 
 target_link_libraries(oop sfml-graphics sfml-window sfml-system)
 
 
+
 include(cmake/CompilerFlags.cmake)
 
+#FetchContent_Declare(
+#        SFML
+#        GIT_REPOSITORY https://github.com/SFML/SFML.git
+#        GIT_TAG 2.5.1
+#)
+
+#FetchContent_MakeAvailable(SFML)
+#
 ###############################################################################
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
