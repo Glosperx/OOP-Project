@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(const sf::Vector2f& position)
-    : Entity(position, 1500.0f)
+    : Entity(position, 500.0f)
 {
     playertexture.loadFromFile("amongus1.png");
 

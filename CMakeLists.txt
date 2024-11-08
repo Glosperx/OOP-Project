@@ -68,6 +68,7 @@ add_executable(${PROJECT_NAME}
 
 set(SFML_STATIC_LIBRARIES TRUE)
 
+
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)
 include_directories(C:/SFML/include)
