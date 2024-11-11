@@ -14,6 +14,7 @@ protected:
     sf::Vector2f velocity;
     sf::Sprite sprite;
     sf::FloatRect hitbox;
+    sf::RectangleShape hitboxShape;
     float speed;
 
 public:

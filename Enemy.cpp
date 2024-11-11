@@ -10,12 +10,31 @@ Entity::Entity() = default;
 
 Enemy::Enemy(const sf::Texture& texture, const sf::Vector2f& position)
     : Entity(texture, position), hp(100), damage(10) {
+
+    sprite.setTexture(texture);
+    sprite.setPosition(position);
+    sprite.setScale(0.5f, 0.5f);
+
+    hitbox = sprite.getGlobalBounds();
+    hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));
+    hitboxShape.setPosition(sprite.getPosition());
+
+    hitboxShape.setFillColor(sf::Color::Transparent);
+    hitboxShape.setOutlineColor(sf::Color::Blue);
+    hitboxShape.setOutlineThickness(2);
 }
 
 
 Enemy::~Enemy() {}
 void Enemy::update(float &dt) {
     Entity::update(dt);
+    hitbox = sprite.getGlobalBounds();
+    hitboxShape.setPosition(sprite.getPosition());
+}
+
+void Enemy::render(sf::RenderWindow& window) {
+    window.draw(sprite);
+    window.draw(hitboxShape);
 }
 
 void Enemy::dealDamage(Player& player) {

@@ -7,6 +7,14 @@ void Game::gwindow() {
     window.create(resolution, name);
     window.setFramerateLimit(120);
     window.setVerticalSyncEnabled(true);
+
+
+    sf::Texture enemyTexture1;
+    sf::Texture enemyTexture2;
+    enemyTexture1.loadFromFile("assets/textures/amongus1.png");
+    enemyTexture2.loadFromFile("assets/textures/amongus1.png");
+    enemies.push_back(std::make_shared<Enemy>(enemyTexture1, sf::Vector2f(300.0f, 300.0f)));
+    enemies.push_back(std::make_shared<Enemy>(enemyTexture2, sf::Vector2f(500.0f, 300.0f)));
     sf::Clock clock;
 
     while (window.isOpen())
@@ -18,11 +26,16 @@ void Game::gwindow() {
                 window.close();
         }
         std::cout << Mario;
-        std::cout << enemy1<<"\n";
 
         float dt = clock.restart().asSeconds();
         window.clear(sf::Color::White);
+
         Mario.update(dt);
+
+        for (auto& enemy : enemies) {
+            enemy->update(dt);  // Make sure your Enemy class has an update method
+            enemy->render(window);  // And a render method
+        }
         // window.clear();
         Mario.render(window);
         window.display();
@@ -34,7 +47,7 @@ Game::Game(std::string name) : name(name), Mario({50.0f, 50.0f}) {
 }
 std::ostream& operator<<(std::ostream& os, const Game& game) {
     os << "Numele jocului: " << game.name << std::endl;
-    os << "Poziția lui Mario: " << game.Mario.getPosition().x << ", " << game.Mario.getPosition().y << std::endl;
+    os << "Pozitia lui Mario: " << game.Mario.getPosition().x << ", " << game.Mario.getPosition().y << std::endl;
     return os;
 }
 

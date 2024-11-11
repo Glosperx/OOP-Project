@@ -21,6 +21,7 @@ public:
 
     void dealDamage(Player& player);
     void update(float &dt) override;
+    void render(sf::RenderWindow& window);
     friend std::ostream& operator<<(std::ostream& os, const Enemy& enemy);
 };
 
