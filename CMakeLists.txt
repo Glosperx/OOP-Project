@@ -64,7 +64,10 @@ add_executable(${PROJECT_NAME}
         Enemy.h
         Health.cpp
         Health.h
+        pch.h
+        pch.cpp
 )
+target_precompile_headers(${PROJECT_NAME} PRIVATE pch.h)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 

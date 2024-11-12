@@ -5,9 +5,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
-
+#include"pch.h"
 class Entity
 {
 protected:

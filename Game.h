@@ -1,9 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SFML/Graphics.hpp>
-#include <memory>
-#include <vector>
+#include "pch.h"
 #include "Player.h"
 #include "Enemy.h"
 
@@ -29,8 +27,8 @@ public:
 
     void update();
     void render();
-    float getScreenWidth() const { return screenWidth; }
-    float getScreenHeight() const { return screenHeight; }
+    float getScreenWidth() const;
+    float getScreenHeight() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Game& game);
 };

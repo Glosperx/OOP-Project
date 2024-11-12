@@ -23,8 +23,42 @@ sf::Vector2f Player::getPosition() const {
     return sprite.getPosition();
 }
 
+void Player::ScreenCollision(float screenWidth, float screenHeight) {
+    sf::Vector2f pos = sprite.getPosition();
+    bool collided = false;
 
-void Player::update(float &dt) {
+    if (pos.x < 0.f) {
+        pos.x = 0.f;
+        collided = true;
+    }
+    else if (pos.x + hitbox.width > screenWidth) {
+        pos.x = screenWidth - hitbox.width;
+        collided = true;
+    }
+
+    if (pos.y < 0.f) {
+        pos.y = 0.f;
+        collided = true;
+    }
+
+    else if (pos.y + hitbox.height > screenHeight) {
+        pos.y = screenHeight - hitbox.height;
+        collided = true;
+    }
+
+    if (collided) {
+        hitboxShape.setOutlineThickness(50);
+    } else {
+        hitboxShape.setOutlineThickness(2);
+    }
+
+    sprite.setPosition(pos);
+    hitboxShape.setPosition(pos);
+}
+
+
+
+void Player::update(float &dt,float screenWidth, float screenHeight) {
     this->setVelocity({0.f, 0.f});
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -42,6 +76,9 @@ void Player::update(float &dt) {
     hitbox = sprite.getGlobalBounds();
     hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));
     hitboxShape.setPosition(sprite.getPosition());
+
+    ScreenCollision(screenWidth, screenHeight);
+
 }
 void Player::render(sf::RenderWindow& window) {
     window.draw(sprite);
@@ -52,6 +89,7 @@ void Player::reduceHP(float amount) {
     hp -= amount;
     if (hp < 0) hp = 0;
 }
+
 
 std::ostream& operator<<(std::ostream& os, const Player& player) {
     os << "Viteza: " << player.getVelocity().x << ", " << player.getVelocity().y << std::endl;

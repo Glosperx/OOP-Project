@@ -1,9 +1,18 @@
 #include "Game.h"
 
+float Game::getScreenWidth() const
+{
+    return screenWidth;
+}
+float Game::getScreenHeight() const
+{
+    return screenHeight;
+}
+
 void Game::gwindow() {
     //fullscreen
     // sf::VideoMode resolution = sf::VideoMode::getDesktopMode();
-    sf::VideoMode resolution = sf::VideoMode(1920, 1080);
+    sf::VideoMode resolution = sf::VideoMode(screenWidth, screenHeight, 32);
     window.create(resolution, name);
     window.setFramerateLimit(120);
     window.setVerticalSyncEnabled(true);
@@ -30,7 +39,7 @@ void Game::gwindow() {
         float dt = clock.restart().asSeconds();
         window.clear(sf::Color::White);
 
-        Mario.update(dt);
+        Mario.update(dt,screenWidth,screenHeight);
 
         for (auto& enemy : enemies) {
             enemy->update(dt);  // Make sure your Enemy class has an update method
