@@ -1,8 +1,5 @@
-#include <iostream>
-#include<SFML/Graphics.hpp>
-#include <array>
+#include "pch.h"
 #include "Game.h"
-#include <Helper.h>
 
 int main() {
 

@@ -1,4 +1,6 @@
+#include "pch.h"
 #include "Game.h"
+#include "Goomba.h"
 
 float Game::getScreenWidth() const
 {
@@ -20,10 +22,10 @@ void Game::gwindow() {
 
     sf::Texture enemyTexture1;
     sf::Texture enemyTexture2;
-    enemyTexture1.loadFromFile("assets/textures/amongus1.png");
+    enemyTexture1.loadFromFile("assets/textures/goomba1.png");
     enemyTexture2.loadFromFile("assets/textures/amongus1.png");
-    enemies.push_back(std::make_shared<Enemy>(enemyTexture1, sf::Vector2f(300.0f, 300.0f)));
-    enemies.push_back(std::make_shared<Enemy>(enemyTexture2, sf::Vector2f(500.0f, 300.0f)));
+    enemies.push_back(std::make_shared<Goomba>(enemyTexture1, sf::Vector2f(300.0f, 300.0f)));
+    enemies.push_back(std::make_shared<Goomba>(enemyTexture2, sf::Vector2f(500.0f, 300.0f)));
     sf::Clock clock;
 
     while (window.isOpen())
@@ -42,8 +44,8 @@ void Game::gwindow() {
         Mario.update(dt,screenWidth,screenHeight);
 
         for (auto& enemy : enemies) {
-            enemy->update(dt);  // Make sure your Enemy class has an update method
-            enemy->render(window);  // And a render method
+            enemy->update(dt);
+            enemy->render(window);
         }
         // window.clear();
         Mario.render(window);

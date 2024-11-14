@@ -37,9 +37,9 @@ void Enemy::render(sf::RenderWindow& window) {
     window.draw(hitboxShape);
 }
 
-void Enemy::dealDamage(Player& player) {
-    player.reduceHP(damage);
-}
+// void Enemy::dealDamage(Player& player) {
+//     player.reduceHP(damage);
+// }
 
 std::ostream& operator<<(std::ostream& os, const Enemy& enemy) {
     os << "Enemy: Health = " << enemy.hp << ", Damage = " << enemy.damage;

@@ -89,6 +89,10 @@ void Player::reduceHP(float amount) {
     hp -= amount;
     if (hp < 0) hp = 0;
 }
+float Player::getHP() const
+{
+    return hp;
+}
 
 
 std::ostream& operator<<(std::ostream& os, const Player& player) {

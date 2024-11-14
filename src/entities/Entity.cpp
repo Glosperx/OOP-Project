@@ -33,6 +33,10 @@ void Entity::render(sf::RenderWindow& window) const
     window.draw(hitboxShape);
 }
 
+bool Entity::checkCollision(const Entity& other) const {
+    return hitbox.intersects(other.getHitbox());
+}
+
 const sf::FloatRect& Entity::getHitbox() const {
     return hitbox;
 }

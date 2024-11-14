@@ -19,7 +19,7 @@ public:
     Enemy& operator=(const Enemy& other);
     ~Enemy();
 
-    void dealDamage(Player& player);
+    virtual void dealDamage(Player& player) = 0;
     void update(float &dt) override;
     void render(sf::RenderWindow& window);
     friend std::ostream& operator<<(std::ostream& os, const Enemy& enemy);

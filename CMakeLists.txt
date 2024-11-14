@@ -52,23 +52,18 @@ include(FetchContent)
 #FetchContent_MakeAvailable(SFML)
 
 add_executable(${PROJECT_NAME}
-    main.cpp
-    generated/src/Helper.cpp
-        Game.h
-        Game.cpp
-        Entity.cpp
-        Entity.h
-        Player.cpp
-        Player.h
-        Enemy.cpp
-        Enemy.h
-        Health.cpp
-        Health.h
-        pch.h
-        pch.cpp
+        src/core/Game.cpp
+        src/core/Game.h
+        src/core/pch.cpp
+        src/core/main.cpp
+        src/entities/Entity.cpp
+        src/entities/Player.cpp
+        src/entities/Enemy.cpp
+        src/entities/Goomba.cpp
 )
-target_precompile_headers(${PROJECT_NAME} PRIVATE pch.h)
 
+# Precompile header
+target_precompile_headers(${PROJECT_NAME} PRIVATE src/core/pch.h)
 set(SFML_STATIC_LIBRARIES TRUE)
 
 
@@ -96,6 +91,10 @@ include(cmake/CompilerFlags.cmake)
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
+target_include_directories(${PROJECT_NAME} PRIVATE
+        src/core
+        src/entities
+)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)
 # target_link_directories(${PROJECT_NAME} PRIVATE ${<SomeLib>_BINARY_DIR}/lib)

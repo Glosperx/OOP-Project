@@ -5,7 +5,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include"pch.h"
+#include "pch.h"
 class Entity
 {
 protected:
@@ -23,6 +23,7 @@ public:
         sprite.setPosition(initialPosition);
     }
     virtual ~Entity() = default;
+    bool checkCollision(const Entity& other) const;
     void setTexture(const sf::Texture &texture);
     void render(sf::RenderWindow& window) const;
     const sf::FloatRect& getHitbox() const;
