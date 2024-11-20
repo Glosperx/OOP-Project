@@ -16,6 +16,7 @@ public:
     Enemy()=default;
     Enemy(const sf::Texture& texture, const sf::Vector2f& position);
     Enemy(const Enemy& other);
+    explicit Enemy(const sf::Texture& texture);
     Enemy& operator=(const Enemy& other);
     ~Enemy();
 

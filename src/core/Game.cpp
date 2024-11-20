@@ -22,9 +22,14 @@ void Game::gwindow() {
 
     sf::Texture enemyTexture1;
     sf::Texture enemyTexture2;
+    sf::Texture enemytexture3;
+
     enemyTexture1.loadFromFile("assets/textures/goomba1.png");
     enemyTexture2.loadFromFile("assets/textures/amongus1.png");
-    enemies.push_back(std::make_shared<Goomba>(enemyTexture1, sf::Vector2f(300.0f, 300.0f)));
+    enemytexture3.loadFromFile("assets/textures/amongus1.png");
+
+    enemies.push_back((std::make_shared<Goomba>(enemytexture3, sf::Vector2f(16000.0f, 2000.0f))));
+    enemies.push_back(std::make_shared<Goomba>(enemyTexture1, sf::Vector2f(1300.0f, 1300.0f)));
     enemies.push_back(std::make_shared<Goomba>(enemyTexture2, sf::Vector2f(500.0f, 300.0f)));
     sf::Clock clock;
 
@@ -49,6 +54,7 @@ void Game::gwindow() {
         }
         // window.clear();
         Mario.render(window);
+
         window.display();
     }
 }

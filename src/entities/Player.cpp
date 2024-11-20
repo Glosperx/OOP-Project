@@ -5,6 +5,7 @@ Player::Player(const sf::Vector2f& position)
 {
     // playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/assets/textures/amongus1.png");
     playertexture.loadFromFile("assets/textures/amongus1.png");
+    //playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/textures/amongus1.png");
 
 
     sprite.setTexture(playertexture);
@@ -21,6 +22,9 @@ Player::Player(const sf::Vector2f& position)
 
 sf::Vector2f Player::getPosition() const {
     return sprite.getPosition();
+}
+const sf::FloatRect& Player::getHitbox() const {
+    return hitbox;
 }
 
 void Player::ScreenCollision(float screenWidth, float screenHeight) {
@@ -56,6 +60,10 @@ void Player::ScreenCollision(float screenWidth, float screenHeight) {
     hitboxShape.setPosition(pos);
 }
 
+// bool Entity::checkCollision(const Entity& other) const {
+//     return hitbox.intersects(other.getHitbox());
+// }
+//
 
 
 void Player::update(float &dt,float screenWidth, float screenHeight) {
@@ -72,6 +80,7 @@ void Player::update(float &dt,float screenWidth, float screenHeight) {
         this->setVelocity(this->getVelocity() + sf::Vector2f(0.f, this->getSpeed()));
 
     move(dt);
+
 
     hitbox = sprite.getGlobalBounds();
     hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));

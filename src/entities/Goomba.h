@@ -13,6 +13,8 @@ class Goomba :public Enemy{
     Goomba()=default ;
     Goomba(const sf::Texture& texture, const sf::Vector2f& position);
     void dealDamage(Player& player) override;
+    void update(float dt);
+    void render(sf::RenderWindow& window);
 
 private:
     sf::Sprite sprite;

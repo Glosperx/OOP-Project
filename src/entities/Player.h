@@ -20,6 +20,7 @@ public:
     void render(sf::RenderWindow& window);
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     sf::Vector2f getPosition() const;
+    const sf::FloatRect& getHitbox() const;
     void ScreenCollision(float screenWidth, float screenHeight);
 
     [[nodiscard]] float getHP() const;

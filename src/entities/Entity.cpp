@@ -12,6 +12,7 @@ Entity::Entity(const sf::Texture& texture, const sf::Vector2f& position)
     hitboxShape.setPosition(sprite.getPosition());
 }
 
+
 void Entity::move(const float &dt) {
     sprite.move(velocity * dt);
     hitbox = sprite.getGlobalBounds();
@@ -33,9 +34,9 @@ void Entity::render(sf::RenderWindow& window) const
     window.draw(hitboxShape);
 }
 
-bool Entity::checkCollision(const Entity& other) const {
-    return hitbox.intersects(other.getHitbox());
-}
+// bool Entity::checkCollision(const Entity& other) const {
+//     return hitbox.intersects(other.getHitbox());
+// }
 
 const sf::FloatRect& Entity::getHitbox() const {
     return hitbox;

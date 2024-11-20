@@ -23,6 +23,10 @@ Enemy::Enemy(const sf::Texture& texture, const sf::Vector2f& position)
     hitboxShape.setOutlineColor(sf::Color::Blue);
     hitboxShape.setOutlineThickness(2);
 }
+Enemy::Enemy(const sf::Texture& texture) {
+}
+
+
 
 
 Enemy::~Enemy() {}
