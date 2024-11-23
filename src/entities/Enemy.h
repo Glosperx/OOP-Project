@@ -20,9 +20,11 @@ public:
     Enemy& operator=(const Enemy& other);
     ~Enemy();
 
-    virtual void dealDamage(Player& player) = 0;
+    virtual void handleCollision(Player& player) = 0;
+
+    virtual void dealDamage(Player& player) ;
     void update(float &dt) override;
-    void render(sf::RenderWindow& window);
+    virtual void render(sf::RenderWindow& window);
     friend std::ostream& operator<<(std::ostream& os, const Enemy& enemy);
 };
 

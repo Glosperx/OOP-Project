@@ -20,17 +20,22 @@ void Game::gwindow() {
     window.setVerticalSyncEnabled(true);
 
 
-    sf::Texture enemyTexture1;
-    sf::Texture enemyTexture2;
-    sf::Texture enemytexture3;
+    // sf::Texture enemyTexture1;
+    // sf::Texture enemyTexture2;
+    // sf::Texture enemytexture3;
+    //
+    // enemyTexture1.loadFro
+    // mFile("assets/textures/goomba1.png");
+    // enemyTexture2.loadFromFile("assets/textures/amongus1.png");
+    // enemytexture3.loadFromFile("assets/textures/amongus1.png");
+    Goomba::loadTexture();
+    for (int i = 0; i < 3; ++i) {
 
-    enemyTexture1.loadFromFile("assets/textures/goomba1.png");
-    enemyTexture2.loadFromFile("assets/textures/amongus1.png");
-    enemytexture3.loadFromFile("assets/textures/amongus1.png");
+        enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f + i * 400.0f, 300.0f)));
+    }
+    // enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f, 300.0f)));
+    // enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(800.0f, 300.0f)));
 
-    enemies.push_back((std::make_shared<Goomba>(enemytexture3, sf::Vector2f(16000.0f, 2000.0f))));
-    enemies.push_back(std::make_shared<Goomba>(enemyTexture1, sf::Vector2f(1300.0f, 1300.0f)));
-    enemies.push_back(std::make_shared<Goomba>(enemyTexture2, sf::Vector2f(500.0f, 300.0f)));
     sf::Clock clock;
 
     while (window.isOpen())
@@ -46,12 +51,23 @@ void Game::gwindow() {
         float dt = clock.restart().asSeconds();
         window.clear(sf::Color::White);
 
-        Mario.update(dt,screenWidth,screenHeight);
+        // for (auto& enemy : enemies) {
+        //     enemy->moveEntity(dt, Mario, enemies);
+        // }
+
+        // Game.cpp
+        for (auto& enemy : enemies) {
+                enemy->handleCollision(Mario);
+                Mario.update(dt, screenWidth, screenHeight, *enemy);
+
+        }
 
         for (auto& enemy : enemies) {
-            enemy->update(dt);
-            enemy->render(window);
+                enemy->update(dt);
+                enemy->render(window);
+
         }
+
         // window.clear();
         Mario.render(window);
 

@@ -63,17 +63,21 @@ add_executable(${PROJECT_NAME}
 )
 
 # Precompile header
-target_precompile_headers(${PROJECT_NAME} PRIVATE src/core/pch.h)
-set(SFML_STATIC_LIBRARIES TRUE)
-
-
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)
 include_directories(C:/SFML/include)
+target_precompile_headers(${PROJECT_NAME} PRIVATE src/core/pch.h)
+
+target_link_libraries(${PROJECT_NAME}
+        sfml-graphics
+        sfml-window
+        sfml-system
+        sfml-audio)
+
 
 find_package(SFML COMPONENTS system window graphics audio REQUIRED)
 
-target_link_libraries(oop sfml-graphics sfml-window sfml-system)
+target_link_libraries(oop sfml-graphics sfml-window sfml-system sfml-audio)
 
 
 
@@ -95,6 +99,9 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
 target_include_directories(${PROJECT_NAME} PRIVATE
         src/core
         src/entities
+        src/assets
+        src/assets/audio
+        src/assets/textures
 )
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)

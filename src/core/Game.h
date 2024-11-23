@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include "pch.h"
-#include "Player.h"
 #include "Enemy.h"
 
 class Game {
@@ -14,6 +13,7 @@ private:
     sf::Clock clock;
     std::string name;
     Player Mario;
+    
 
     const float screenWidth = 1920.f;
     const float screenHeight = 1080.f;

@@ -1,11 +1,13 @@
 #include "Player.h"
 
 Player::Player(const sf::Vector2f& position)
-    : Entity(position, 1500.0f)
+    : Entity(position, 500.0f)
 {
     // playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/assets/textures/amongus1.png");
-    playertexture.loadFromFile("assets/textures/amongus1.png");
-    //playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/textures/amongus1.png");
+   // playertexture.loadFromFile("assets/textures/amongus1.png");
+    playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/textures/amongus1.png");
+    collision_castraveti.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/audio/ultimul_castravete.wav");
+    collision_am_spus_castraveti.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/audio/am_spus_castraveti.wav");
 
 
     sprite.setTexture(playertexture);
@@ -18,6 +20,7 @@ Player::Player(const sf::Vector2f& position)
     hitboxShape.setOutlineColor(sf::Color::Red);
     hitboxShape.setOutlineThickness(2);
     hitboxShape.setPosition(sprite.getPosition());
+
 }
 
 sf::Vector2f Player::getPosition() const {
@@ -52,6 +55,20 @@ void Player::ScreenCollision(float screenWidth, float screenHeight) {
 
     if (collided) {
         hitboxShape.setOutlineThickness(50);
+
+        if (collisionCount % 2) {
+
+            castraveti.setBuffer(collision_am_spus_castraveti);
+            // collisionCount++;
+        } else {
+
+            castraveti.setBuffer(collision_castraveti);
+            // collisionCount++;
+        }
+
+        castraveti.play();
+         collisionCount++;
+        std::cout<<collisionCount<<std::endl;
     } else {
         hitboxShape.setOutlineThickness(2);
     }
@@ -64,32 +81,59 @@ void Player::ScreenCollision(float screenWidth, float screenHeight) {
 //     return hitbox.intersects(other.getHitbox());
 // }
 //
+void Player::moveCharacter(float dt) {
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        this->setVelocity(sf::Vector2f(this->getSpeed(), 0.f));
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        this->setVelocity(sf::Vector2f(-this->getSpeed(), 0.f));
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        this->setVelocity(sf::Vector2f(0.f, -this->getSpeed()));
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        this->setVelocity(sf::Vector2f(0.f, this->getSpeed()));
+    } else {
+
+        this->setVelocity({0.f, 0.f});
+    }
+
+    sprite.move(velocity * dt);
+}
 
 
-void Player::update(float &dt,float screenWidth, float screenHeight) {
-    this->setVelocity({0.f, 0.f});
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        this->setVelocity(this->getVelocity() + sf::Vector2f(this->getSpeed(), 0.f));
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        this->setVelocity(this->getVelocity() - sf::Vector2f(this->getSpeed(), 0.f));
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        this->setVelocity(this->getVelocity() - sf::Vector2f(0.f, this->getSpeed()));
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        this->setVelocity(this->getVelocity() + sf::Vector2f(0.f, this->getSpeed()));
-
-    move(dt);
-
+void Player::update(float& dt, float screenWidth, float screenHeight, const Entity& otherEntity) {
 
     hitbox = sprite.getGlobalBounds();
     hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));
     hitboxShape.setPosition(sprite.getPosition());
 
-    ScreenCollision(screenWidth, screenHeight);
 
+    bool isColliding = Entity::isColliding(*this, otherEntity);
+
+    if (isColliding) {
+        hitboxShape.setOutlineThickness(50);
+        // std::cout << "Collision detected!" << std::endl;
+
+        sprite.move(-velocity * dt);
+        this->setVelocity({0.f, 0.f});
+
+    } else {
+        hitboxShape.setOutlineThickness(2);
+    }
+
+    ScreenCollision(screenWidth, screenHeight);
+    hitboxShape.setPosition(sprite.getPosition());
+
+    if (!isColliding) {
+        moveCharacter(dt);
+    }
 }
-void Player::render(sf::RenderWindow& window) {
+
+
+
+void Player::render(sf::RenderWindow& window) const
+{
     window.draw(sprite);
     window.draw(hitboxShape);
 }
@@ -105,6 +149,6 @@ float Player::getHP() const
 
 
 std::ostream& operator<<(std::ostream& os, const Player& player) {
-    os << "Viteza: " << player.getVelocity().x << ", " << player.getVelocity().y << std::endl;
+    // os << "Viteza: " << player.getVelocity().x << ", " << player.getVelocity().y << std::endl;
     return os;
 }
