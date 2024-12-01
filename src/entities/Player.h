@@ -5,6 +5,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "Entity.h"
+#include "Enemy.h"
+
 
 
 class Player:public Entity
@@ -12,20 +14,28 @@ class Player:public Entity
 public:
 
     Player()=default ;
-    Player(const sf::Vector2f& position);
+    explicit Player(const sf::Vector2f& position);
     virtual ~Player() override = default;
-    void update(float dt, float screen_width, float screen_height);
+
+    void update(float& dt, float screenWidth, float screenHeight, const std::vector<std::shared_ptr<Enemy>>& enemies);
     // virtual void update(float &dt) override;
     using Entity::update;
-    void update(float& dt, float screenWidth, float screenHeight, const Entity& otherEntity);
-    void render(sf::RenderWindow& window) const;
+    // void update(float& dt, float screenWidth, float screenHeight, const Entity& otherEntity);
+    void render(sf::RenderWindow& window) const override;
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     sf::Vector2f getPosition() const;
     const sf::FloatRect& getHitbox() const;
+    void updateHitbox();
     void ScreenCollision(float screenWidth, float screenHeight);
     void moveCharacter(float dt);
+    bool handleCollisionWithEnemy(const std::vector<std::shared_ptr<Enemy>>& enemies);
+
+    // void handleCollisionWithEnemy(const std::shared_ptr<Enemy>& enemy);
 
     [[nodiscard]] float getHP() const;
+    void setSpritePosition(float x, float y) {
+        sprite.setPosition(x, y);
+    }
 
     void reduceHP(float amount);
 private:

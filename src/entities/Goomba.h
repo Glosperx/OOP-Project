@@ -14,17 +14,18 @@ class Goomba :public Enemy{
     explicit Goomba(const sf::Vector2f& position);
     static void loadTexture();
     Goomba(const sf::Texture& texture, const sf::Vector2f& position);
+
     void dealDamage(Player& player) override;
     void takeDamage();
     void update(float &dt, Player& player);
 
+    virtual Goomba* clone() const override;
     void handleCollision(Player& player) override;
     void render(sf::RenderWindow& window) override;
-    bool getIsDead() const;
+
 
 private:
     float hp=10;
-    bool isDead;
     sf::Sprite sprite;
     static sf::Texture goombaTexture;
 };

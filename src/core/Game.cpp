@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Game.h"
 #include "Goomba.h"
+#include "Enemy.h"
+#include "Player.h"
 
 float Game::getScreenWidth() const
 {
@@ -51,26 +53,20 @@ void Game::gwindow() {
         float dt = clock.restart().asSeconds();
         window.clear(sf::Color::White);
 
-        // for (auto& enemy : enemies) {
-        //     enemy->moveEntity(dt, Mario, enemies);
-        // }
-
-        // Game.cpp
+        Mario.update(dt, screenWidth, screenHeight, enemies);
         for (auto& enemy : enemies) {
-                enemy->handleCollision(Mario);
-                Mario.update(dt, screenWidth, screenHeight, *enemy);
-
+            enemy->handleCollision(Mario);
         }
 
-        for (auto& enemy : enemies) {
-                enemy->update(dt);
-                enemy->render(window);
 
+        for (auto& enemy : enemies) {
+            enemy->update(dt);
+            enemy->render(window);
         }
+
 
         // window.clear();
         Mario.render(window);
-
         window.display();
     }
 }

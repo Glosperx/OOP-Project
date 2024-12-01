@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "Enemy.h"
+#include "Player.h"
 
 class Game {
 private:
