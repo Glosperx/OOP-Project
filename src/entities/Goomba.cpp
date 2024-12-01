@@ -10,7 +10,7 @@ sf::Texture Goomba::goombaTexture;
 
 // Loads the Goomba texture
 void Goomba::loadTexture() {
-    if (!goombaTexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/textures/goomba1.png")) {
+    if (!goombaTexture.loadFromFile("src/assets/textures/goomba1.png")) {
         throw std::runtime_error("Failed to load Goomba texture");
     }
 }

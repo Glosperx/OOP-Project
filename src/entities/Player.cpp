@@ -6,9 +6,9 @@ Player::Player(const sf::Vector2f& position)
 {
     // playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/assets/textures/amongus1.png");
    // playertexture.loadFromFile("assets/textures/amongus1.png");
-    playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/textures/amongus1.png");
-    collision_castraveti.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/audio/ultimul_castravete.wav");
-    collision_am_spus_castraveti.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/src/assets/audio/am_spus_castraveti.wav");
+    playertexture.loadFromFile("src/assets/textures/amongus1.png");
+    collision_castraveti.loadFromFile("src/assets/audio/ultimul_castravete.wav");
+    collision_am_spus_castraveti.loadFromFile("src/assets/audio/am_spus_castraveti.wav");
 
 
     sprite.setTexture(playertexture);
@@ -77,7 +77,7 @@ void Player::ScreenCollision(float screenWidth, float screenHeight) {
             // collisionCount++;
         }
 
-        // castraveti.play();
+        castraveti.play();
          collisionCount++;
         std::cout<<collisionCount<<std::endl;
     } else {
