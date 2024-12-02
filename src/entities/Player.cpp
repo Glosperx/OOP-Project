@@ -1,14 +1,25 @@
 #include "Player.h"
 #include "Goomba.h"
+#include "Exceptions.h"
 
 Player::Player(const sf::Vector2f& position)
     : Entity(position, 1500.0f)
 {
     // playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/assets/textures/amongus1.png");
    // playertexture.loadFromFile("assets/textures/amongus1.png");
-    playertexture.loadFromFile("src/assets/textures/amongus1.png");
-    collision_castraveti.loadFromFile("src/assets/audio/ultimul_castravete.wav");
-    collision_am_spus_castraveti.loadFromFile("src/assets/audio/am_spus_castraveti.wav");
+
+    try {
+        loadResources();
+    } catch (const fileNotFoundError& e) {
+        std::cerr << "File error: " << e.what() << std::endl;
+        return;
+    } catch (const invalidTextureError& e) {
+        std::cerr << "Texture error: " << e.what() << std::endl;
+        return;
+    } catch (const gameError& e) {
+        std::cerr << "General error: " << e.what() << std::endl;
+        return;
+    }
 
 
     sprite.setTexture(playertexture);
@@ -25,6 +36,21 @@ Player::Player(const sf::Vector2f& position)
 
     setIsAlive();
 
+}
+
+// Resources loading
+void Player::loadResources() {
+    if (!playertexture.loadFromFile("src/assets/textures/amongus1.png")) {
+        throw resourceLoadError("src/assets/textures/amongus1.png");
+    }
+
+    if (!collision_castraveti.loadFromFile("src/assets/audio/ultimul_castravete.wav")) {
+        throw resourceLoadError("src/assets/audio/ultimul_castravete.wav");
+    }
+
+    if (!collision_am_spus_castraveti.loadFromFile("src/assets/audio/am_spus_castraveti.wav")) {
+        throw resourceLoadError("src/assets/audio/am_spus_castraveti.wav");
+    }
 }
 
 sf::Vector2f Player::getPosition() const {
@@ -113,43 +139,7 @@ void Player::moveCharacter(float dt) {
 
     sprite.move(velocity * dt);
 }
-//
-// void Player::handleCollisionWithEnemy(const std::shared_ptr<Enemy>& enemy) {
-//     const sf::FloatRect& playerBounds = sprite.getGlobalBounds();
-//     const sf::FloatRect& enemyBounds = enemy->getHitbox();
-//
-//     // Top collision with enemy
-//     if (topCollision(*enemy)) {
-//         velocity.y = 0.f;
-//         sprite.setPosition(playerBounds.left, enemyBounds.top + enemyBounds.height);
-//         std::cout << "TOP COLLISION\n";
-//         return;
-//     }
-//
-//     // Bottom collision with enemy
-//     if (bottomCollision(*enemy)) {
-//         velocity.y = 0.f;
-//         sprite.setPosition(playerBounds.left, enemyBounds.top - playerBounds.height);
-//         std::cout << "BOTTOM COLLISION\n";
-//         return;
-//     }
-//
-//     // Right collision with enemy
-//     if (rightCollision(*enemy)) {
-//         velocity.x = 0.f;
-//         sprite.setPosition(enemyBounds.left - playerBounds.width, playerBounds.top);
-//         std::cout << "RIGHT COLLISION\n";
-//         return;
-//     }
-//
-//     // Left Collision with enemy
-//     if (leftCollision(*enemy)) {
-//         velocity.x = 0.f;
-//         sprite.setPosition(enemyBounds.left + enemyBounds.width, playerBounds.top);
-//         std::cout << "LEFT COLLISION\n";
-//         return;
-//     }
-// }
+
 bool Player::handleCollisionWithEnemy(const std::vector<std::shared_ptr<Enemy>>& enemies) {
     bool collided = false;
 
@@ -245,9 +235,4 @@ void Player::reduceHP(float amount)
 float Player::getHP() const
 {
     return hp;
-}
-
-std::ostream& operator<<(std::ostream& os, const Player& player) {
-    // os << "Viteza: " << player.getVelocity().x << ", " << player.getVelocity().y << std::endl;
-    return os;
 }

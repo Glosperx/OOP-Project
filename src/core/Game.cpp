@@ -48,7 +48,6 @@ void Game::gwindow() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        std::cout << Mario;
 
         float dt = clock.restart().asSeconds();
         window.clear(sf::Color::White);
@@ -74,11 +73,7 @@ void Game::gwindow() {
 Game::Game(std::string name) : name(name), Mario({50.0f, 50.0f}) {
     gwindow();
 }
-std::ostream& operator<<(std::ostream& os, const Game& game) {
-    os << "Numele jocului: " << game.name << std::endl;
-    os << "Pozitia lui Mario: " << game.Mario.getPosition().x << ", " << game.Mario.getPosition().y << std::endl;
-    return os;
-}
+
 
 Game::~Game() {
 }

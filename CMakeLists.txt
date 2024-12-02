@@ -38,6 +38,7 @@ add_executable(${PROJECT_NAME}
         src/entities/Goomba.cpp
         src/entities/Koopa.cpp
         src/entities/Koopa.h
+        src/core/Exceptions.h
 )
 
 # Precompile header

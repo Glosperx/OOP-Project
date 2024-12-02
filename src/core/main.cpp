@@ -3,8 +3,7 @@
 
 int main() {
 
-    Game game("Cisco");
-    std::cout<<game;
+    Game game("SuperDragan");
 
     return 0;
 }

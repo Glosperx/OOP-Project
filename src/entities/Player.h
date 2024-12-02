@@ -6,6 +6,7 @@
 #define PLAYER_H
 #include "Entity.h"
 #include "Enemy.h"
+#include "Exceptions.h"
 
 
 
@@ -32,6 +33,7 @@ public:
 
     // void handleCollisionWithEnemy(const std::shared_ptr<Enemy>& enemy);
 
+    void loadResources();
     [[nodiscard]] float getHP() const;
     void setSpritePosition(float x, float y) {
         sprite.setPosition(x, y);
