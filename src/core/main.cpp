@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "Game.h"
 
-int main() {
+int main()
+{
+	Game game("SuperDragan");
 
-    Game game("SuperDragan");
-
-    return 0;
+	return 0;
 }

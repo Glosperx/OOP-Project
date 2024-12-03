@@ -39,6 +39,10 @@ add_executable(${PROJECT_NAME}
         src/entities/Koopa.cpp
         src/entities/Koopa.h
         src/core/Exceptions.h
+        src/core/Button.cpp
+        src/core/Button.h
+        src/core/Menu.cpp
+        src/core/Menu.h
 )
 
 # Precompile header
