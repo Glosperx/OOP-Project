@@ -59,9 +59,9 @@ void Enemy::render(sf::RenderWindow& window)
 // void Enemy::dealDamage(Player& player) {
 //     player.reduceHP(damage);
 // }
-
-std::ostream& operator<<(std::ostream& os, const Enemy& enemy)
-{
-	os << "Enemy: Health = " << enemy.hp << ", Damage = " << enemy.damage;
-	return os;
-}
+//
+// std::ostream& operator<<(std::ostream& os, const Enemy& enemy)
+// {
+// 	os << "Enemy: Health = " << enemy.hp << ", Damage = " << enemy.damage;
+// 	return os;
+// }

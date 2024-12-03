@@ -90,4 +90,13 @@ public:
 	}
 };
 
+class buttonFontLoadError : public gameError
+{
+public:
+	buttonFontLoadError(const std::string& fontPath)
+		: gameError("Failed to load button font: " + fontPath)
+	{
+	}
+};
+
 #endif // EXCEPTIONS_H

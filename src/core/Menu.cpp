@@ -17,15 +17,15 @@ void Menu::loadResources()
 	}
 
 	background.setTexture(&backgroundTexture);
+
 	if (!backgroundMusic.openFromFile("src/assets/audio/theme_song.wav"))
 	{
 		throw musicLoadError("src/assets/audio/theme_song.wav");
 	}
-
 }
+
 void Menu::startBackgroundMusic()
 {
-
 	backgroundMusic.setLoop(true);
 	backgroundMusic.play();
 }
@@ -34,10 +34,6 @@ void Menu::stopBackgroundMusic()
 {
 	backgroundMusic.stop();
 }
-
-
-
-
 
 
 void Menu::handleInput(sf::RenderWindow& window, bool& isPlaying)

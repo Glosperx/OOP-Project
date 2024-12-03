@@ -49,7 +49,7 @@ void Player::loadResources()
 	}
 }
 
-void Player::setupGameOverText( sf::RenderWindow& window)
+void Player::setupGameOverText(sf::RenderWindow& window)
 {
 	gameOverText.setFont(gameOverFont);
 	gameOverText.setString("Game Over");
@@ -66,8 +66,6 @@ const sf::Text& Player::getGameOverText() const
 {
 	return gameOverText;
 }
-
-
 
 
 void Player::setSpritePosition(float x, float y)
@@ -263,8 +261,6 @@ void Player::update(float& dt, float screenWidth, float screenHeight,
 	ScreenCollision(screenWidth, screenHeight);
 
 	hitboxShape.setPosition(sprite.getPosition());
-
-
 }
 
 

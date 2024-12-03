@@ -28,7 +28,8 @@ void Game::gwindow()
 	window.setVerticalSyncEnabled(true);
 	sf::Texture backgroundTexture;
 	sf::Sprite backgroundSprite;
-	if (!backgroundTexture.loadFromFile("src/assets/backround/sky2.png")) {
+	if (!backgroundTexture.loadFromFile("src/assets/backround/sky2.png"))
+	{
 		throw backroundLoadError("src/assets/backround/sky2.png");
 	}
 	backgroundSprite.setTexture(backgroundTexture);

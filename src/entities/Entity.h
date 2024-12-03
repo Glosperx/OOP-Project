@@ -45,10 +45,7 @@ public:
 	static bool isColliding(const Entity& entity1, const Entity& entity2);
 	void moveEntity(float dt);
 	// virtual void takeDamage()=0;
-	const sf::Sprite& getSprite() const
-	{
-		return sprite;
-	}
+	const sf::Sprite& getSprite() const;
 
 	bool getIsDead() const;
 	void setIsDead();

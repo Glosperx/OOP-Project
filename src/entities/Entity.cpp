@@ -74,6 +74,11 @@ const sf::FloatRect& Entity::getHitbox() const
 	return hitbox;
 }
 
+const sf::Sprite& Entity::getSprite() const
+{
+	return sprite;
+}
+
 bool Entity::isColliding(const Entity& entity1, const Entity& entity2)
 {
 	const sf::FloatRect& rect1 = entity1.getHitbox();

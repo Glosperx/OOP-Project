@@ -4,8 +4,6 @@
 
 #ifndef MENU_H
 #define MENU_H
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include "Button.h"
 
 
@@ -19,10 +17,7 @@ private:
 	sf::Font font;
 	sf::Music backgroundMusic;
 
-
 public:
-	// Menu(float width, float height);
-
 	Menu(float width, float height);
 	void loadResources();
 	void startBackgroundMusic();
