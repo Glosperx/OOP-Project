@@ -68,7 +68,7 @@ add_executable(${PROJECT_NAME}
 
 include(cmake/CompilerFlags.cmake)
 # Precompile header
-set(SFML_STATIC_LIBRARIES TRUE)
+#set(SFML_STATIC_LIBRARIES TRUE)
 target_precompile_headers(${PROJECT_NAME} PRIVATE src/core/pch.h)
 
 # Link SFML libraries to your project
@@ -79,6 +79,7 @@ target_link_libraries(${PROJECT_NAME}
         sfml-audio
         Threads::Threads
 )
+target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
 
 # Include SFML headers (via FetchContent)
 target_include_directories(${PROJECT_NAME} PRIVATE ${SFML_SOURCE_DIR}/include)
@@ -94,8 +95,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         src/assets/textures
 )
 
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
-target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
 
 if(APPLE)
 elseif(UNIX)
