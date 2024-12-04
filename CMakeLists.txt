@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.26)
 # for now, the project name is used as the executable name
 project(oop)
 
-# Set the C++ standard to use
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -49,7 +48,7 @@ add_executable(${PROJECT_NAME}
 )
 
 # Precompile header
-set(SFML_STATIC_LIBRARIES TRUE)  # This makes sure SFML is built as static libraries
+set(SFML_STATIC_LIBRARIES TRUE)
 target_precompile_headers(${PROJECT_NAME} PRIVATE src/core/pch.h)
 
 # Link SFML libraries to your project
@@ -75,21 +74,12 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 ###############################################################################
 
-# Handle OpenGL - if necessary, ensure it's found on the CI machines
-find_package(OpenGL REQUIRED)
-
-# Link OpenGL if necessary
-if(OpenGL_FOUND)
-    target_link_libraries(${PROJECT_NAME} OpenGL::GL)
-endif()
-
-# Install step - copy binaries to "bin" folder for artifacts
+# Copy binaries to "bin" folder; these are uploaded as artifacts on each release
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
 if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
 
-# Copy necessary files
 include(cmake/CopyHelper.cmake)
 copy_files(FILES tastatura.txt)
 # copy_files(FILES tastatura.txt config.json DIRECTORY images sounds)
