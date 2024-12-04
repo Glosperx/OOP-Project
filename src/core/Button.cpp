@@ -34,7 +34,7 @@ void Button::loadResources(const std::string& fontPath)
 
 
 // Check if the button is pressed
-bool Button::isPressed(const sf::Vector2f& mousePos) const
+bool Button::isPressed([[maybe_unused]]const sf::Vector2f& mousePos) const
 {
 	return pressed;
 }
