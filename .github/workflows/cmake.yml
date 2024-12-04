@@ -60,7 +60,7 @@ jobs:
         run: |
           if [ "${{ matrix.os }}" == "ubuntu-22.04" ]; then
             sudo apt update
-            sudo apt install -y libopencv-dev libsfml-dev cmake g++
+            sudo apt install -y libopencv-dev libsfml-dev cmake g++ libudev-dev
           elif [ "${{ matrix.os }}" == "macos-14" ]; then
             if ! command -v brew &> /dev/null; then
               echo "Homebrew not found. Installing..."
@@ -104,30 +104,17 @@ jobs:
                 exit 1
               fi
             }
-          
-            # Configuring OpenCV_DIR and SFML_DIR for Windows
-          echo "Setting OpenCV and SFML environment variables"
-          
-          # Use PowerShell correctly to set environment variables in the Windows runner
-          pwsh -Command "[System.Environment]::SetEnvironmentVariable('OPENCV_DIR', 'C:/tools/opencv/build', 'User')"
-          pwsh -Command "[System.Environment]::SetEnvironmentVariable('SFML_DIR', 'C:/tools/sfml/SFML-2.5.1', 'User')"
-          
-          # Configuring OpenCV_DIR and SFML_DIR for GitHub environment
-          echo "Configuring OpenCV_DIR"
-          echo "C:/tools/opencv/build" >> $GITHUB_ENV
-          echo "Configuring SFML_DIR"
-          echo "C:/tools/sfml/SFML-2.5.1" >> $GITHUB_ENV
 
-            # Verifying OpenCV and SFML installation
-            echo "Verifying OpenCV and SFML installation"
-            if [ ! -d "C:/tools/opencv/build" ]; then
-              echo "Error: OpenCV directory not found at C:/tools/opencv/build" >&2
-              exit 1
-            fi
-            if [ ! -d "C:/tools/sfml/SFML-2.5.1" ]; then
-              echo "Error: SFML directory not found at C:/tools/sfml/SFML-2.5.1" >&2
-              exit 1
-            fi
+            # Set environment variables using PowerShell
+            pwsh -Command "[System.Environment]::SetEnvironmentVariable('OpenCV_DIR', 'C:/tools/opencv/build', 'User')"
+            pwsh -Command "[System.Environment]::SetEnvironmentVariable('SFML_DIR', 'C:/tools/sfml/SFML-2.5.1', 'User')"
+            echo "OpenCV and SFML environment variables set."
+
+            # Configuring OpenCV_DIR and SFML_DIR for GitHub environment
+            echo "Configuring OpenCV_DIR"
+            echo "C:/tools/opencv/build" >> $env:GITHUB_ENV
+            echo "Configuring SFML_DIR"
+            echo "C:/tools/sfml/SFML-2.5.1" >> $env:GITHUB_ENV
           fi
 
       - name: Configure CMake
