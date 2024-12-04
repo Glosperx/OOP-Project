@@ -28,9 +28,9 @@ public:
 
 	virtual void handleCollision(Player& player) = 0;
 
-	void update(float& dt) override;
+	void update(float dt) override;
 	virtual void render(sf::RenderWindow& window);
-	friend std::ostream& operator<<(std::ostream& os, const Enemy& enemy);
+	// friend std::ostream& operator<<(std::ostream& os, const Enemy& enemy);
 };
 
 

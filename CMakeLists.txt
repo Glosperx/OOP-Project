@@ -70,6 +70,9 @@ include(cmake/CompilerFlags.cmake)
 # Precompile header
 #set(SFML_STATIC_LIBRARIES TRUE)
 target_precompile_headers(${PROJECT_NAME} PRIVATE src/core/pch.h)
+#add_compile_options(-Wno-overloaded-virtual)
+
+
 
 # Link SFML libraries to your project
 target_link_libraries(${PROJECT_NAME}

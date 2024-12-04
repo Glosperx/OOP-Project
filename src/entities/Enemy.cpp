@@ -43,7 +43,7 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::update(float& dt)
+void Enemy::update(float dt)
 {
 	Entity::update(dt);
 	hitbox = sprite.getGlobalBounds();

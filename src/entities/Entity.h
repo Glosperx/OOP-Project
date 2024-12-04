@@ -64,7 +64,7 @@ public:
 	void setSpeed(float _speed);
 
 	virtual void move(const float& dt);
-	virtual void update(float& dt);
+	virtual void update(float dt);
 	friend std::ostream& operator<<(std::ostream& os, const Entity& entity);
 };
 

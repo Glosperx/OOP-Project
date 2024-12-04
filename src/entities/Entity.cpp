@@ -52,7 +52,7 @@ void Entity::move(const float& dt)
 	hitboxShape.setPosition(sprite.getPosition());
 }
 
-void Entity::update([[maybe_unused]] float& dt)
+void Entity::update([[maybe_unused]] float dt)
 {
 	hitbox = sprite.getGlobalBounds();
 	hitboxShape.setPosition(sprite.getPosition());
