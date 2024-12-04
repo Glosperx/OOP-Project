@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Goomba.h"
 #include "Exceptions.h"
+#include "ResourceManager.h"
 
 Player::Player(const sf::Vector2f& position)
 	: Entity(position, 1500.0f)
@@ -10,7 +11,8 @@ Player::Player(const sf::Vector2f& position)
 
 	loadResources();
 
-	sprite.setTexture(playertexture);
+	// sprite.setTexture(playertexture);
+	sprite.setTexture(ResourceManager::playertexture);
 	sprite.setPosition(position);
 	sprite.setScale(0.5f, 0.5f);
 	hp = 100;
@@ -26,32 +28,40 @@ Player::Player(const sf::Vector2f& position)
 }
 
 // Resources loading
+// void Player::loadResources()
+// {
+	// if (!playertexture.loadFromFile("src/assets/textures/amongus1.png"))
+	// {
+	// 	throw resourceLoadError("src/assets/textures/amongus1.png");
+	// }
+	//
+	// if (!collision_castraveti.loadFromFile("src/assets/audio/ultimul_castravete.wav"))
+	// {
+	// 	throw resourceLoadError("src/assets/audio/ultimul_castravete.wav");
+	// }
+	//
+	// if (!collision_am_spus_castraveti.loadFromFile("src/assets/audio/am_spus_castraveti.wav"))
+	// {
+	// 	throw resourceLoadError("src/assets/audio/am_spus_castraveti.wav");
+	// }
+	//
+	// if (!gameOverFont.loadFromFile("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf"))
+	// {
+	// 	throw fontLoadError("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf");
+	// }
+// }
+
+
 void Player::loadResources()
 {
-	if (!playertexture.loadFromFile("src/assets/textures/amongus1.png"))
-	{
-		throw resourceLoadError("src/assets/textures/amongus1.png");
-	}
-
-	if (!collision_castraveti.loadFromFile("src/assets/audio/ultimul_castravete.wav"))
-	{
-		throw resourceLoadError("src/assets/audio/ultimul_castravete.wav");
-	}
-
-	if (!collision_am_spus_castraveti.loadFromFile("src/assets/audio/am_spus_castraveti.wav"))
-	{
-		throw resourceLoadError("src/assets/audio/am_spus_castraveti.wav");
-	}
-
-	if (!gameOverFont.loadFromFile("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf"))
-	{
-		throw fontLoadError("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf");
-	}
+	ResourceManager::loadResources();
 }
+
 
 void Player::setupGameOverText(sf::RenderWindow& window)
 {
-	gameOverText.setFont(gameOverFont);
+	gameOverText.setFont(ResourceManager::gameOverFont);
+	// gameOverText.setFont(gameOverFont);
 	gameOverText.setString("Game Over");
 	gameOverText.setCharacterSize(100);
 	gameOverText.setFillColor(sf::Color::Red);
@@ -90,6 +100,7 @@ void Player::updateHitbox()
 	hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));
 	hitboxShape.setPosition(sprite.getPosition());
 }
+int Player::collisionCount = 0;
 
 
 void Player::ScreenCollision(float screenWidth, float screenHeight)
@@ -126,12 +137,14 @@ void Player::ScreenCollision(float screenWidth, float screenHeight)
 
 		if (collisionCount % 2)
 		{
-			castraveti.setBuffer(collision_am_spus_castraveti);
+			// castraveti.setBuffer(collision_am_spus_castraveti);
+			castraveti.setBuffer(ResourceManager::collision_am_spus_castraveti);
 			// collisionCount++;
 		}
 		else
 		{
-			castraveti.setBuffer(collision_castraveti);
+			// castraveti.setBuffer(collision_castraveti);
+			castraveti.setBuffer(ResourceManager::collision_castraveti);
 			// collisionCount++;
 		}
 
@@ -201,6 +214,8 @@ bool Player::handleCollisionWithEnemy(const std::vector<std::shared_ptr<Enemy>>&
 
 			if (auto* goomba = dynamic_cast<Goomba*>(enemy.get()))
 			{
+				collisionCount++;
+
 				if (topCollision(*goomba))
 				{
 					goomba->setIsDead(); // Goomba is dead

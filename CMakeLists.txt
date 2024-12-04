@@ -43,6 +43,8 @@ add_executable(${PROJECT_NAME}
         src/core/Button.h
         src/core/Menu.cpp
         src/core/Menu.h
+        src/core/ResourceManager.cpp
+        src/core/ResourceManager.h
 )
 
 # Precompile header

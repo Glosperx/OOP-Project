@@ -44,7 +44,8 @@ public:
 private:
 	float hp = 100;
 	sf::Texture playertexture;
-	int collisionCount = 0;
+	// int collisionCount = 0;
+	static int collisionCount;
 	sf::Font gameOverFont;
 	sf::Text gameOverText;
 	sf::SoundBuffer collision_castraveti;
