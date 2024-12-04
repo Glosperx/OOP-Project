@@ -133,22 +133,21 @@ jobs:
           cd build
           ctest --output-on-failure
 
-  clang-tidy:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+clang-tidy:
+  runs-on: ubuntu-22.04
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Install clang-tidy
-        run: |
-          sudo apt update
-          sudo apt install -y clang-tidy
+    - name: Install clang-tidy
+      run: |
+        sudo apt update
+        sudo apt install -y clang-tidy
 
-      - name: Run clang-tidy
-        run: |
-          # Ensure that the src directory exists and is populated with .cpp files
-          if [ -d "src" ]; then
-            clang-tidy src/*.cpp -- -std=c++20
-          else
-            echo "Source directory 'src' does not exist or is empty."
-          fi
+    - name: Run clang-tidy
+      run: |
+        if [ -d "src" ] && ls src/*.cpp 1> /dev/null 2>&1; then
+          find src/ -name "*.cpp" | xargs clang-tidy -- -std=c++20
+        else
+          echo "Directory 'src' is empty or does not exist."
+        fi
