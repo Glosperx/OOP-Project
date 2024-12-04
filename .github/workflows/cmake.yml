@@ -2,10 +2,10 @@ name: C++ CI
 
 on:
   push:
-    branches: ['*']
+    branches: ['*'] # NOTE: replace/update with appropriate branch name(s)
     tags: ['*']
   pull_request:
-    branches: ['*']
+    branches: ['*'] # NOTE: replace/update with appropriate branch name(s)
   workflow_dispatch:
     inputs:
       build_type:
@@ -21,133 +21,202 @@ on:
 
 env:
   BUILD_TYPE: ${{ inputs.build_type || 'Debug' }}
+  # NOTE: update executable name if it is changed in CMakeLists.txt
   EXECUTABLE_NAME: "oop"
   INPUT_FILENAME: "tastatura.txt"
-  BIN_DIR: "bin"
+  BIN_DIR: "bin"       # update in cmake/Options.cmake:6 if changing name here
   BUILD_DIR: "build"
+  EXT_DIR: "ext"
+  GEN_DIR: "generated"
+
+defaults:
+  run:
+    # Use a bash shell, so we can use the same syntax for environment variable
+    # access regardless of the host operating system
+    # https://github.com/saxbophone/CPP20-Cross-Platform-Template
+    shell: bash
 
 jobs:
   cppcheck:
+    name: "Cppcheck"
+    # concurrency:
+    #   group: "Cppcheck"
     runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    env:
+      # check https://github.com/danmar/cppcheck/releases for latest version
+      # NOTE: consider updating this value in scripts/build_cppcheck.sh:4 when changing this value
+      CPPCHECK_VER: "2.14.2"
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install cppcheck
-        run: |
-          sudo apt update
-          sudo apt install -y cppcheck
-
       - name: Run cppcheck
-        run: |
-          cppcheck --enable=all --inconclusive --std=c++20 --quiet src/ generated/src/
+        uses: ./.github/actions/cppcheck
+
+  clang-tidy:
+    name: "Clang-Tidy"
+    # concurrency:
+    #   group: "Clang-Tidy"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    env:
+      CLANG_VER: 18
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run clang-tidy
+        uses: ./.github/actions/clang-tidy
+
 
   build:
+    name: ${{ matrix.name }}
+    # concurrency:
+    #   group: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    permissions:
+      attestations: write
+      contents: write
+      id-token: write
+
+    env:
+      CC: ${{ matrix.c }}
+      CXX: ${{ matrix.cxx }}
+      VSCMD_SKIP_SENDTELEMETRY: 1
+
+      # NOTE: replace with another version if this one does not work
+      # For more versions, see https://winlibs.com or
+      # https://github.com/brechtsanders/winlibs_mingw/releases/
+      MINGW_VER: "13.3.0posix-11.0.1-msvcrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64msvcrt-11.0.1-r1.7z"
+      # Example:
+      # MINGW_VER: "13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z"
+      # MINGW_VER: "14.1.0posix-18.1.7-12.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-14.1.0-mingw-w64ucrt-12.0.0-r2.7z"
+      # MINGW_VER: "14.1.0posix-18.1.7-12.0.0-msvcrt-r2/winlibs-x86_64-posix-seh-gcc-14.1.0-mingw-w64msvcrt-12.0.0-r2.7z"
+
+
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-14, windows-2022]
-        compiler: [gcc, clang, msvc]
-        build_type: [Debug, Release]
+        include:
+          - os: ubuntu-22.04
+            c: clang-18
+            cxx: clang++-18
+            clang_ver: "18"
+            clang_ver_full: "18.1.8"
+            name: "MSan: Ubuntu 22.04 Clang 18"
+            cmake_flags: "-DUSE_MSAN=ON"
+            cmake_generator: Ninja
+            # This env runs memory sanitizers
+            runs_msan: true
+
+          - os: ubuntu-22.04
+            c: gcc-12
+            cxx: g++-12
+            name: "ASan: Ubuntu 22.04 GCC 12"
+            cmake_flags: "-DUSE_ASAN=ON"
+            cmake_generator: Ninja
+            # This env runs address sanitizers
+            runs_asan: true
+            # this is used to add a suffix to the archive name since we use the same compiler version
+            asan_name: "-asan"
+
+          - os: ubuntu-22.04
+            c: gcc-12
+            cxx: g++-12
+            name: "Valgrind: Ubuntu 22.04 GCC 12"
+            # cmake_flags:
+            cmake_generator: Ninja
+            # This env runs valgrind
+            runs_valgrind: true
+
+          - os: macos-14
+            c: clang
+            cxx: clang++
+            name: "macOS 14 Apple Clang 15"
+            cmake_flags: "-DUSE_ASAN=OFF"
+            # cmake_generator:
+            # This env runs address sanitizers
+            runs_asan: false
+
+          - os: macos-14
+            c: gcc-13
+            cxx: g++-13
+            name: "macOS 14 GCC 13"
+            # cmake_flags:
+            # cmake_generator: Ninja
+
+          - os: windows-2022
+            c: cl
+            cxx: cl
+            name: "ASan: Windows 2022 MSVC 19.41"
+            cmake_flags: "-DUSE_ASAN=ON"
+            # Ninja is not faster on MSVC because... MSVC
+            # cmake_generator: "Ninja"
+            # cmake_generator: "Ninja Multi-Config"
+            # This env runs address sanitizers
+            runs_asan: true
+
+          - os: windows-2022
+            c: gcc
+            cxx: g++
+            name: "Windows 2022 MinGW GCC 13"
+            # cmake_flags:
+            cmake_generator: Ninja
 
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        shell: bash  # Ensure bash is used on all platforms
+      - name: Set timestamp and zip name
         run: |
-          if [ "${{ matrix.os }}" == "ubuntu-22.04" ]; then
-            sudo apt update
-            sudo apt install -y libopencv-dev libsfml-dev cmake g++ libudev-dev
-          elif [ "${{ matrix.os }}" == "macos-14" ]; then
-            if ! command -v brew &> /dev/null; then
-              echo "Homebrew not found. Installing..."
-              /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            fi
-            brew install opencv sfml cmake llvm
-          elif [ "${{ matrix.os }}" == "windows-2022" ]; then
-            # Install OpenCV via Chocolatey
-            choco install opencv --yes --limit-output
-            if [ $? -eq 0 ]; then
-              echo "OpenCV installed successfully."
-            else
-              echo "OpenCV installation failed." >&2
-              exit 1
-            fi
+          echo "TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)" >> ${GITHUB_ENV}
 
-            # Try installing SFML using Chocolatey or fallback to manual installation
-            choco install sfml --yes --limit-output || {
-              echo "SFML package not found in Chocolatey. Attempting manual installation."
-              # Download SFML from the official website
-              curl -L https://www.sfml-dev.org/files/SFML-2.5.1-windows-vc15-64-bit.zip -o C:/tools/sfml.zip
-              if [ $? -eq 0 ]; then
-                echo "SFML downloaded successfully."
-              else
-                echo "Error downloading SFML." >&2
-                exit 1
-              fi
+          # use the full name as prefix: {user_name}_{repo_name} (replace / with _)
+          echo "ZIP_NAME=$(echo "${GITHUB_REPOSITORY}_${{ env.BUILD_TYPE }}_${{ matrix.os }}_${{ matrix.cxx }}${{ matrix.asan_name }}" | sed 's|/|_|')" >> ${GITHUB_ENV}
 
-              # Unzip SFML to C:/tools/sfml
-              unzip C:/tools/sfml.zip -d C:/tools/sfml
-              if [ $? -eq 0 ]; then
-                echo "SFML extracted successfully."
-              else
-                echo "Error extracting SFML." >&2
-                exit 1
-              fi
+          # or use only the repo name (github does not have a predefined environment variable for this)
+          # the regex splits by / and keeps everything after / without the / character
+          # echo "ZIP_NAME=$(echo "${GITHUB_REPOSITORY}_${{ env.BUILD_TYPE }}_${{ matrix.os }}_${{ matrix.cxx }}${{ matrix.asan_name }}" | sed -E 's|.+/(.+)|\1|')" >> ${GITHUB_ENV}
 
-              # Verify that SFML was extracted
-              if [ ! -d "C:/tools/sfml/SFML-2.5.1" ]; then
-                echo "Error: SFML directory not found at C:/tools/sfml/SFML-2.5.1" >&2
-                exit 1
-              fi
-            }
-
-            # Set environment variables using PowerShell
-            pwsh -Command "[System.Environment]::SetEnvironmentVariable('OpenCV_DIR', 'C:/tools/opencv/build', 'User')"
-            pwsh -Command "[System.Environment]::SetEnvironmentVariable('SFML_DIR', 'C:/tools/sfml/SFML-2.5.1', 'User')"
-            echo "OpenCV and SFML environment variables set."
-
-            # Configuring OpenCV_DIR and SFML_DIR for GitHub environment
-            echo "Configuring OpenCV_DIR"
-            echo "C:/tools/opencv/build" >> $env:GITHUB_ENV
-            echo "Configuring SFML_DIR"
-            echo "C:/tools/sfml/SFML-2.5.1" >> $env:GITHUB_ENV
-          fi
+      - name: Install packages
+        uses: ./.github/actions/install-packages
 
       - name: Configure CMake
-        run: |
-          mkdir -p build
-          cd build
-          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+        uses: ./.github/actions/configure-cmake
+        with:
+          custom_flags: ${{ matrix.cmake_flags }}
+          warnings_as_errors: 'ON'
 
       - name: Build
         run: |
-          cd build
-          cmake --build .
+          bash ./scripts/cmake.sh build -t ${{ env.BUILD_TYPE }}
 
-      - name: Run Tests
+      - name: Install
+        # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
         run: |
-          cd build
-          ctest --output-on-failure
+          bash ./scripts/cmake.sh install -i artifacts -t ${{ env.BUILD_TYPE }}
 
-clang-tidy:
-  runs-on: ubuntu-22.04
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Move artifacts
+        run: |
+          mkdir ${{ env.ZIP_NAME }}
+          mv artifacts/${{ env.BIN_DIR }}/* ${{ env.ZIP_NAME }}
+          ls -la ${{ env.ZIP_NAME }}
 
-    - name: Install clang-tidy
-      run: |
-        sudo apt update
-        sudo apt install -y clang-tidy
+      - name: Process artifacts
+        uses: ./.github/actions/process-artifacts
 
-    - name: Run clang-tidy
-      run: |
-        if [ -d "src" ] && ls src/*.cpp 1> /dev/null 2>&1; then
-          find src/ -name "*.cpp" | xargs clang-tidy -- -std=c++20
-        else
-          echo "Directory 'src' is empty or does not exist."
-        fi
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ZIP_NAME }}_${{ env.TIMESTAMP }}
+          path: ${{ env.ZIP_NAME }}
+          retention-days: 30
+
+      - name: Runtime checks
+        uses: ./.github/actions/runtime-checks
+
+      - name: Create release
+        uses: ./.github/actions/create-release
+        if: startsWith(github.ref, 'refs/tags/')
