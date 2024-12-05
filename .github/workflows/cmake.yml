@@ -146,9 +146,10 @@ jobs:
 
       - name: Run clang-tidy
         run: |
-          # Ensure that the src directory exists and is populated with .cpp files
-          if [ -d "src" ]; then
-            clang-tidy src/*.cpp -- -std=c++20
+          # Ensure that there are .cpp files in the src directory and its subdirectories
+          CPP_FILES=$(find src -name "*.cpp")
+          if [ -n "$CPP_FILES" ]; then
+            clang-tidy $CPP_FILES -- -std=c++20
           else
-            echo "Source directory 'src' does not exist or is empty."
+            echo "No .cpp files found in the 'src' directory."
           fi

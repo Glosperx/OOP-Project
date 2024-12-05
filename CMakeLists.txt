@@ -100,6 +100,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         src/assets/backround
         src/assets/font
 )
+file(GLOB_RECURSE SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+target_sources(${PROJECT_NAME} PRIVATE ${SRC_FILES})
+
 
 
 if(APPLE)
