@@ -64,6 +64,7 @@ add_executable(${PROJECT_NAME}
         src/core/Menu.h
         src/core/ResourceManager.cpp
         src/core/ResourceManager.h
+        src/entities/Health.h
 )
 
 include(cmake/CompilerFlags.cmake)
@@ -96,6 +97,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         src/assets
         src/assets/audio
         src/assets/textures
+        src/assets/backround
+        src/assets/font
 )
 
 
