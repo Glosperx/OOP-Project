@@ -5,6 +5,7 @@ sf::Texture ResourceManager::playertexture;
 sf::SoundBuffer ResourceManager::collision_castraveti;
 sf::SoundBuffer ResourceManager::collision_am_spus_castraveti;
 sf::Font ResourceManager::gameOverFont;
+sf::Texture ResourceManager::luckyBlockTexture;
 
 void ResourceManager::loadResources()
 {
@@ -12,6 +13,9 @@ void ResourceManager::loadResources()
 		if (!playertexture.loadFromFile("src/assets/textures/amongus1.png"))
 		{
 			throw resourceLoadError("src/assets/textures/amongus1.png");
+		}
+		if (!luckyBlockTexture.loadFromFile("src/assets/textures/lucky_block.png")) {
+			throw resourceLoadError("src/assets/textures/lucky_block.png");
 		}
 
 		if (!collision_castraveti.loadFromFile("src/assets/audio/ultimul_castravete.wav"))

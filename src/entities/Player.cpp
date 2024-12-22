@@ -58,24 +58,24 @@ void Player::loadResources()
 }
 
 
-void Player::setupGameOverText(sf::RenderWindow& window)
-{
-	gameOverText.setFont(ResourceManager::gameOverFont);
-	// gameOverText.setFont(gameOverFont);
-	gameOverText.setString("Game Over");
-	gameOverText.setCharacterSize(100);
-	gameOverText.setFillColor(sf::Color::Red);
-	gameOverText.setStyle(sf::Text::Bold);
-
-	sf::FloatRect textBounds = gameOverText.getLocalBounds();
-	gameOverText.setOrigin(textBounds.width / 2.0f, textBounds.height / 2.0f);
-	gameOverText.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
-}
-
-const sf::Text& Player::getGameOverText() const
-{
-	return gameOverText;
-}
+// void Player::setupGameOverText(sf::RenderWindow& window)
+// {
+// 	gameOverText.setFont(ResourceManager::gameOverFont);
+// 	// gameOverText.setFont(gameOverFont);
+// 	gameOverText.setString("Game Over");
+// 	gameOverText.setCharacterSize(100);
+// 	gameOverText.setFillColor(sf::Color::Red);
+// 	gameOverText.setStyle(sf::Text::Bold);
+//
+// 	sf::FloatRect textBounds = gameOverText.getLocalBounds();
+// 	gameOverText.setOrigin(textBounds.width / 2.0f, textBounds.height / 2.0f);
+// 	gameOverText.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+// }
+//
+// const sf::Text& Player::getGameOverText() const
+// {
+// 	return gameOverText;
+// }
 
 
 void Player::setSpritePosition(float x, float y)
@@ -286,7 +286,7 @@ void Player::render(sf::RenderWindow& window)
 
 	if (getIsDead())
 	{
-		setupGameOverText(window);
+		// setupGameOverText(window);
 		window.draw(gameOverText);
 	}
 }

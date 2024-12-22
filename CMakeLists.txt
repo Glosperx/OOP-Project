@@ -65,6 +65,10 @@ add_executable(${PROJECT_NAME}
         src/core/ResourceManager.cpp
         src/core/ResourceManager.h
         src/entities/Health.h
+        src/core/GameOverMenu.cpp
+        src/core/GameOverMenu.h
+        src/entities/LuckyBlock.cpp
+        src/entities/LuckyBlock.h
 )
 
 include(cmake/CompilerFlags.cmake)

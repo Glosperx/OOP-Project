@@ -33,13 +33,13 @@ public:
 
 	void loadResources();
 
-	void setupGameOverText(sf::RenderWindow& window);
+	// void setupGameOverText(sf::RenderWindow& window);
 	void gameOver();
 	[[nodiscard]] float getHP() const;
 	void setSpritePosition(float x, float y);
 
 	void reduceHP(float amount);
-	const sf::Text& getGameOverText() const;
+	// const sf::Text& getGameOverText() const;
 
 private:
 	float hp = 100;

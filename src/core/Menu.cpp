@@ -1,12 +1,11 @@
 #include "Menu.h"
-#include <iostream>
 
 Menu::Menu(float width, float height)
 	: playButton(300, 200, 200, 50, "Play", font, sf::Color::Blue, sf::Color::Green, sf::Color::Red),
 	  quitButton(300, 300, 200, 50, "Quit", font, sf::Color::Blue, sf::Color::Green, sf::Color::Red)
 {
 	background.setSize(sf::Vector2f(width, height));
-	loadResources();
+	Menu::loadResources();
 }
 
 void Menu::loadResources()
@@ -36,7 +35,7 @@ void Menu::stopBackgroundMusic()
 }
 
 
-void Menu::handleInput(sf::RenderWindow& window, bool& isPlaying)
+void Menu::update(sf::RenderWindow& window, bool& isPlaying)
 {
 	sf::Vector2f mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
 
@@ -51,13 +50,6 @@ void Menu::handleInput(sf::RenderWindow& window, bool& isPlaying)
 	{
 		window.close();
 	}
-}
-
-void Menu::update(sf::RenderWindow& window)
-{
-	sf::Vector2f mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
-	playButton.update(mousePos);
-	quitButton.update(mousePos);
 }
 
 void Menu::render(sf::RenderWindow& window)

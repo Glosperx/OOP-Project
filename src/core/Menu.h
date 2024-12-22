@@ -22,8 +22,7 @@ public:
 	void loadResources();
 	void startBackgroundMusic();
 	void stopBackgroundMusic();
-	void handleInput(sf::RenderWindow& window, bool& isPlaying);
-	void update(sf::RenderWindow& window);
+	void update(sf::RenderWindow& window, bool& isPlaying);
 	void render(sf::RenderWindow& window);
 };
 

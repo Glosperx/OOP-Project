@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "Exceptions.h"
 #include "Menu.h"
+#include "GameOverMenu.h"
 
 float Game::getScreenWidth() const
 {
@@ -69,7 +70,9 @@ void Game::gwindow()
 
 		// // playButton.update(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
 		// menu.startBackgroundMusic();
-		menu.handleInput(window, isPlaying);
+
+		//Main Menu
+		menu.update(window, isPlaying);
 		if (isPlaying)
 		{
 			menu.stopBackgroundMusic();
@@ -112,20 +115,28 @@ void Game::gwindow()
 			if (Mario.getIsDead())
 			{
 				soundtrack.stop();
-				Mario.setupGameOverText(window);
-				window.draw(Mario.getGameOverText());
-			}
+				// Mario.setupGameOverText(window);
+				// window.draw(Mario.getGameOverText());
+				Mario.render(window);
 
+				GameOverMenu gameOverMenu(screenWidth, screenHeight);
+				gameOverMenu.update(window);
+				gameOverMenu.render(window);
+			}
+			else
+			{
+				Mario.render(window);
+			}
 			// playButton.render(window);
 			// window.clear();
-			Mario.render(window);
+			// Mario.render(window);
 			window.display();
 		}
 		else
 		{
 			window.clear();
 
-			menu.update(window);
+			menu.update(window,isPlaying);
 			menu.render(window);
 
 			window.display();

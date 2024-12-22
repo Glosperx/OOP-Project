@@ -11,7 +11,7 @@ public:
 	static sf::SoundBuffer collision_castraveti;
 	static sf::SoundBuffer collision_am_spus_castraveti;
 	static sf::Font gameOverFont;
-
+	static sf::Texture luckyBlockTexture;
 	static void loadResources();
 };
 
