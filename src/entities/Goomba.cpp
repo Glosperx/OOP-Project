@@ -5,22 +5,22 @@
 #include "Goomba.h"
 #include "Game.h"
 #include "Enemy.h"
+#include "ResourceManager.h"
 
-sf::Texture Goomba::goombaTexture;
 
 // Loads the Goomba texture
-void Goomba::loadTexture()
-{
-	if (!goombaTexture.loadFromFile("src/assets/textures/goomba1.png"))
-	{
-		throw std::runtime_error("Failed to load Goomba texture");
-	}
-}
+// void Goomba::loadTexture()
+// {
+// 	if (!goombaTexture.loadFromFile("src/assets/textures/goomba1.png"))
+// 	{
+// 		throw std::runtime_error("Failed to load Goomba texture");
+// 	}
+// }
 
 // Goomba Constructor
-Goomba::Goomba(const sf::Vector2f& position) : Enemy(goombaTexture, position)
+Goomba::Goomba(const sf::Vector2f& position) : Enemy(position)
 {
-	sprite.setTexture(goombaTexture);
+	sprite.setTexture(ResourceManager::goombaTexture);
 	sprite.setPosition(position);
 	sprite.setScale(0.5f, 0.5f);
 
@@ -31,8 +31,14 @@ Goomba::Goomba(const sf::Vector2f& position) : Enemy(goombaTexture, position)
 	hitboxShape.setOutlineThickness(2);
 	hitboxShape.setPosition(sprite.getPosition());
 
-	setIsAlive(); // Set the Goomba s alive status
+	setIsAlive(); // Set Goomba alive status
 }
+
+void Goomba::loadResources()
+{
+	ResourceManager::loadResources();
+}
+
 
 Goomba* Goomba::clone() const
 {
@@ -57,7 +63,7 @@ void Goomba::handleCollision(Player& player)
 	if (player.topCollision(*this))
 	{
 		setIsDead();
-		sprite.setTextureRect(sf::IntRect(0, 0, 0, 0)); // Ascunde Goomba
+		sprite.setTextureRect(sf::IntRect(0, 0, 0, 0)); // Hide Goomba
 		hitbox = sf::FloatRect(0, 0, 0, 0);
 		hitboxShape.setSize(sf::Vector2f(0, 0));
 		// std::cout << "Goomba died\n";
@@ -67,16 +73,17 @@ void Goomba::handleCollision(Player& player)
 
 void Goomba::update([[maybe_unused]] float& dt, Player& player)
 {
+
+	hitbox = sprite.getGlobalBounds();
+	hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));
+	hitboxShape.setPosition(sprite.getPosition());
+
 	if (getIsDead())
 	{
 		hitbox = sf::FloatRect(0, 0, 0, 0);
 		hitboxShape.setSize(sf::Vector2f(0, 0));
 		return;
 	}
-
-	hitbox = sprite.getGlobalBounds();
-	hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));
-	hitboxShape.setPosition(sprite.getPosition());
 
 	handleCollision(player);
 }

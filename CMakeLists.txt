@@ -69,6 +69,14 @@ add_executable(${PROJECT_NAME}
         src/core/GameOverMenu.h
         src/entities/LuckyBlock.cpp
         src/entities/LuckyBlock.h
+        src/core/Subject.cpp
+        src/core/Subject.h
+        src/core/Observer.h
+        src/core/SoundManager.cpp
+        src/core/SoundManager.h
+        src/core/EnemyFactory.cpp
+        src/core/EnemyFactory.h
+        src/core/EnemyContainer.h
 )
 
 include(cmake/CompilerFlags.cmake)

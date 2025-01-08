@@ -2,6 +2,7 @@
 #include "Goomba.h"
 #include "Exceptions.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 
 Player::Player(const sf::Vector2f& position)
 	: Entity(position, 1500.0f)
@@ -131,31 +132,39 @@ void Player::ScreenCollision(float screenWidth, float screenHeight)
 		collided = true;
 	}
 
-	if (collided)
-	{
-		hitboxShape.setOutlineThickness(50);
+	// if (collided)
+	// {
+	// 	hitboxShape.setOutlineThickness(50);
+	//
+	// 	if (collisionCount % 2)
+	// 	{
+	// 		// castraveti.setBuffer(collision_am_spus_castraveti);
+	// 		castraveti.setBuffer(ResourceManager::collision_am_spus_castraveti);
+	// 		// collisionCount++;
+	// 	}
+	// 	else
+	// 	{
+	// 		// castraveti.setBuffer(collision_castraveti);
+	// 		castraveti.setBuffer(ResourceManager::collision_castraveti);
+	// 		// collisionCount++;
+	// 	}
 
-		if (collisionCount % 2)
-		{
-			// castraveti.setBuffer(collision_am_spus_castraveti);
-			castraveti.setBuffer(ResourceManager::collision_am_spus_castraveti);
-			// collisionCount++;
-		}
-		else
-		{
-			// castraveti.setBuffer(collision_castraveti);
-			castraveti.setBuffer(ResourceManager::collision_castraveti);
-			// collisionCount++;
+	if (collided) {
+		SoundManager soundManager;
+		if (collisionCount % 2 == 0) {
+			notifyObservers("collision_even");
+			soundManager.onNotify("collision_even");
+		} else {
+			notifyObservers("collision_odd");
+			soundManager.onNotify("collision_odd");
 		}
 
-		castraveti.play();
 		collisionCount++;
+	}
+
+		// castraveti.play();
+		// collisionCount++;
 		std::cout << collisionCount << std::endl;
-	}
-	else
-	{
-		hitboxShape.setOutlineThickness(2);
-	}
 
 	sprite.setPosition(pos);
 	hitboxShape.setPosition(pos);
@@ -277,6 +286,10 @@ void Player::update(float& dt, float screenWidth, float screenHeight,
 
 	hitboxShape.setPosition(sprite.getPosition());
 }
+void Player::setPosition(float x, float y) {
+	sprite.setPosition(x, y);
+}
+
 
 
 void Player::render(sf::RenderWindow& window)
@@ -298,6 +311,7 @@ void Player::reduceHP(float amount)
 	{
 		hp = 0;
 		setIsDead();
+		notifyObservers("player_dead");
 		std::cout << "Player is dead!\n";
 	}
 }

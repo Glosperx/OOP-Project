@@ -8,10 +8,24 @@
 Entity::Entity() = default;
 
 // Constructor with texture and position initialization
-Enemy::Enemy(const sf::Texture& texture, const sf::Vector2f& position)
-	: Entity(texture, position), hp(100), damage(10), isDead(false)
+// Enemy::Enemy(const sf::Texture& texture, const sf::Vector2f& position)
+// 	: Entity(texture, position), hp(100), damage(10), isDead(false)
+// {
+// 	sprite.setTexture(texture);
+// 	sprite.setPosition(position);
+// 	sprite.setScale(0.5f, 0.5f);
+//
+// 	hitbox = sprite.getGlobalBounds();
+// 	hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));
+// 	hitboxShape.setPosition(sprite.getPosition());
+//
+// 	hitboxShape.setFillColor(sf::Color::Transparent);
+// 	hitboxShape.setOutlineColor(sf::Color::Blue);
+// 	hitboxShape.setOutlineThickness(2);
+// }
+Enemy::Enemy( const sf::Vector2f& position)
+	: Entity(), hp(100), damage(10), isDead(false)
 {
-	sprite.setTexture(texture);
 	sprite.setPosition(position);
 	sprite.setScale(0.5f, 0.5f);
 
@@ -49,6 +63,13 @@ void Enemy::update(float dt)
 	hitbox = sprite.getGlobalBounds();
 	hitboxShape.setPosition(sprite.getPosition());
 }
+void Enemy::loadTexture(const sf::Texture& texture) {
+	sprite.setTexture(texture);
+	hitbox = sprite.getGlobalBounds();
+	hitboxShape.setSize(sf::Vector2f(hitbox.width, hitbox.height));
+	hitboxShape.setPosition(sprite.getPosition());
+}
+
 
 void Enemy::render(sf::RenderWindow& window)
 {

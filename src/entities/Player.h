@@ -7,9 +7,9 @@
 #include "Entity.h"
 #include "Enemy.h"
 #include "Exceptions.h"
+#include "Subject.h"
 
-
-class Player : public Entity
+class Player : public Entity,public Subject
 {
 public:
 	Player() = default ;
@@ -32,6 +32,7 @@ public:
 	// void handleCollisionWithEnemy(const std::shared_ptr<Enemy>& enemy);
 
 	void loadResources();
+	void setPosition(float x, float y);
 
 	// void setupGameOverText(sf::RenderWindow& window);
 	void gameOver();
@@ -51,6 +52,7 @@ private:
 	sf::SoundBuffer collision_castraveti;
 	sf::Sound castraveti;
 	sf::SoundBuffer collision_am_spus_castraveti;
+
 };
 
 

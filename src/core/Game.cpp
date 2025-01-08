@@ -8,6 +8,10 @@
 #include "Exceptions.h"
 #include "Menu.h"
 #include "GameOverMenu.h"
+#include "SoundManager.h"
+#include "EnemyFactory.h"
+#include "EnemyContainer.h"
+
 
 float Game::getScreenWidth() const
 {
@@ -27,28 +31,41 @@ void Game::gwindow()
 	window.create(resolution, name);
 	window.setFramerateLimit(120);
 	window.setVerticalSyncEnabled(true);
-	sf::Texture backgroundTexture;
-	sf::Sprite backgroundSprite;
-	if (!backgroundTexture.loadFromFile("src/assets/backround/sky2.png"))
-	{
-		throw backroundLoadError("src/assets/backround/sky2.png");
-	}
-	backgroundSprite.setTexture(backgroundTexture);
+	// sf::Texture backgroundTexture;
+	// sf::Sprite backgroundSprite;
+	// if (!backgroundTexture.loadFromFile("src/assets/backround/sky2.png"))
+	// {
+	// 	throw backroundLoadError("src/assets/backround/sky2.png");
+	// }
+	// backgroundSprite.setTexture(backgroundTexture);
+	sf::Sprite backgroundSprite = ResourceManager::backgroundSprite;
+
+	//template class
+	EnemyContainer<Goomba> goombaContainer;
+	EnemyContainer<Koopa> koopaContainer;
+
+	goombaContainer.addEnemy(std::make_shared<Goomba>(sf::Vector2f(100, 200)));
 
 
-	if (!soundtrack.openFromFile("src/assets/audio/supermario_soundtrack.wav"))
-	{
-		throw soundtrackLoadError("src/assets/audio/supermario_soundtrack.wav");
-	}
 
-	Goomba::loadTexture();
-	Koopa::loadTexture();
 
-	for (int i = 0; i < 3; ++i)
-	{
-		enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f + i * 400.0f, 300.0f)));
-		enemies.push_back(std::make_shared<Koopa>(sf::Vector2f(800.0f + i * 400.0f, 800.0f)));
-	}
+	// goombaContainer.addEnemy(std::make_shared<Goomba>(sf::Vector2f(500.0f, 300.0f)));
+	// goombaContainer.addEnemy(std::make_shared<Goomba>(sf::Vector2f(900.0f, 300.0f)));
+	//
+	// koopaContainer.addEnemy(std::make_shared<Koopa>(sf::Vector2f(800.0f, 800.0f)));
+	// koopaContainer.addEnemy(std::make_shared<Koopa>(sf::Vector2f(1200.0f, 800.0f)));
+
+	// if (!soundtrack.openFromFile("src/assets/audio/supermario_soundtrack.wav"))
+	// {
+	// 	throw soundtrackLoadError("src/assets/audio/supermario_soundtrack.wav");
+	// }
+
+
+	// for (int i = 0; i < 3; ++i)
+	// {
+	// 	enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f + i * 400.0f, 300.0f)));
+	// 	enemies.push_back(std::make_shared<Koopa>(sf::Vector2f(800.0f + i * 400.0f, 800.0f)));
+	// }
 
 	// enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f, 300.0f)));
 	// enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(800.0f, 300.0f)));
@@ -57,6 +74,11 @@ void Game::gwindow()
 	bool isPlaying = false;
 	sf::Clock clock;
 	menu.startBackgroundMusic();
+	SoundManager soundManager;
+
+	//Factory design pattern
+	std::unique_ptr<Enemy> enemy = EnemyFactory::createEnemy("Goomba", sf::Vector2f(100.0f, 200.0f));
+	std::unique_ptr<Enemy> anotherEnemy = EnemyFactory::createEnemy("Koopa", sf::Vector2f(300.0f, 400.0f));
 
 	while (window.isOpen())
 	{
@@ -76,11 +98,13 @@ void Game::gwindow()
 		if (isPlaying)
 		{
 			menu.stopBackgroundMusic();
-			if (soundtrack.getStatus() != sf::Music::Playing)
-			{
-				soundtrack.play();
-				soundtrack.setLoop(true);
-			}
+			// if (soundtrack.getStatus() != sf::Music::Playing)
+			// {
+			// 	soundtrack.play();
+			// 	soundtrack.setLoop(true);
+			// }
+
+			soundManager.onNotify("start_theme");
 			// if (soundtrack.getStatus() == sf::Music::Playing)
 			// {
 			// 	std::cout << "Music is already playing" << std::endl;
@@ -97,6 +121,11 @@ void Game::gwindow()
 			// window.clear(sf::Color::White);
 			window.clear();
 			window.draw(backgroundSprite);
+			goombaContainer.updateEnemies(dt, Mario);
+			goombaContainer.renderEnemies(window);
+
+			koopaContainer.updateEnemies(dt,Mario);
+			koopaContainer.renderEnemies(window);
 
 
 			Mario.update(dt, screenWidth, screenHeight, enemies);
@@ -114,7 +143,8 @@ void Game::gwindow()
 
 			if (Mario.getIsDead())
 			{
-				soundtrack.stop();
+				// soundtrack.stop();
+				soundManager.onNotify("stop_theme");
 				// Mario.setupGameOverText(window);
 				// window.draw(Mario.getGameOverText());
 				Mario.render(window);
