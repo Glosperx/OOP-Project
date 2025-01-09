@@ -42,8 +42,6 @@ This project is a Super Mario-inspired game developed using SFML (Simple and Fas
 - This pattern is used to define the structure of common algorithms while allowing specific steps to be customized by subclasses.
 - Example: The `Enemy` class defines a template method for enemy behavior during gameplay, while subclasses like `Goomba` and `Koopa` override specific steps (e.g., movement or damage responses) to introduce unique behaviors.
 
-By combining these patterns, the project achieves a high degree of modularity, flexibility, and reusability, making it easier to maintain and extend the game in the future.
-
 
 
 
