@@ -4,29 +4,45 @@ This project is a Super Mario-inspired game developed using SFML (Simple and Fas
 
 ## Features
 
-### 1. **Custom Graphics and Audio**
-   - The game includes custom graphics for all entities and backgrounds.
-   - Audio effects are implemented for different types of collisions (e.g., player hitting an enemy, player jumping, etc.).
-   - Background music plays both in the main menu and during gameplay, enhancing the gaming experience.
+### 1. Custom Graphics and Audio
+- The game includes custom graphics for all entities and backgrounds.
+- Audio effects are implemented for different types of collisions (e.g., player hitting an enemy, player jumping, etc.).
+- Background music plays both in the main menu and during gameplay, enhancing the gaming experience.
 
-### 2. **Entity Hierarchy**
-   - **Base Entity:** The `Entity` class represents common entities (player, enemies, objects) in the game.
-   - **Player:** The `Player` class extends `Entity` and represents the main character of the game.
-   - **Enemies:** The `Enemy` class is a base class for enemies, with specific derivatives like `Goomba` and `Koopa`.
-     - **Goomba and Koopa Differences:** When the player jumps on both Goombas and Koopas, they are defeated. However, they take different amounts of damage based on their type, with each enemy having unique damage values to add variety to gameplay.
+### 2. Entity Hierarchy
+- **Base Entity**: The `Entity` class represents common entities (player, enemies, objects) in the game.
+- **Player**: The `Player` class extends `Entity` and represents the main character of the game.
+- **Enemies**: The `Enemy` class is a base class for enemies, with specific derivatives like `Goomba` and `Koopa`.
+  - **Goomba and Koopa Differences**: When the player jumps on both Goombas and Koopas, they are defeated. However, they take different amounts of damage based on their type, with each enemy having unique damage values to add variety to gameplay.
 
-### 3. **Collision Detection**
-   - **Screen Collision:** The player and enemies interact with the screen boundaries, ensuring that they stay within the visible area.
-   - **Object Collision:** In addition to screen boundaries, collisions are detected between entities (e.g., player vs. enemies, player vs. objects).
-   - **Enemy-Specific Collisions:** Different collision responses are implemented based on the type of enemy (e.g., Goomba, Koopa) to provide unique interactions when the player collides with them.
+### 3. Collision Detection
+- **Screen Collision**: The player and enemies interact with the screen boundaries, ensuring that they stay within the visible area.
+- **Object Collision**: In addition to screen boundaries, collisions are detected between entities (e.g., player vs. enemies, player vs. objects).
+- **Enemy-Specific Collisions**: Different collision responses are implemented based on the type of enemy (e.g., Goomba, Koopa) to provide unique interactions when the player collides with them.
 
-### 4. **Main Menu**
-   - The main menu allows the player to choose between starting the game or quitting.
-   - It features a background image, interactive buttons, and plays background music.
+### 4. Main Menu
+- The main menu allows the player to choose between starting the game or quitting.
+- It features a background image, interactive buttons, and plays background music.
 
-### 5. **Audio Integration**
-   - The game includes background music that plays in both the main menu and during gameplay.
-   - Different audio effects are played depending on the type of collision, such as when the player jumps on an enemy, collects a coin, or hits an object.
+### 5. Audio Integration
+- The game includes background music that plays in both the main menu and during gameplay.
+- Different audio effects are played depending on the type of collision, such as when the player jumps on an enemy, collects a coin, or hits an object.
+
+### 6. Design Pattern Implementations
+
+#### Factory Pattern
+- This pattern is used to create different types of enemies (e.g., Goomba, Koopa). A factory method determines which enemy type to spawn based on the game context, ensuring extensibility and maintainability.
+- Example: A centralized `EnemyFactory` class handles the instantiation of enemies based on their type, reducing hardcoding and simplifying the addition of new enemy types.
+
+#### Observer Pattern
+- The observer pattern is implemented to handle game events such as score updates, lives tracking, or changes to player status.
+- Example: The `Player` class notifies observers (e.g., UI components) whenever coins are collected or the player's health changes, ensuring real-time updates without tight coupling between the player and UI.
+
+#### Template Method Pattern
+- This pattern is used to define the structure of common algorithms while allowing specific steps to be customized by subclasses.
+- Example: The `Enemy` class defines a template method for enemy behavior during gameplay, while subclasses like `Goomba` and `Koopa` override specific steps (e.g., movement or damage responses) to introduce unique behaviors.
+
+
 
 
 
