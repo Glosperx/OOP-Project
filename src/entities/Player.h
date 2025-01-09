@@ -24,6 +24,9 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Player& player);
 	sf::Vector2f getPosition() const;
 	const sf::FloatRect& getHitbox() const;
+
+	void setIsDead();
+
 	void updateHitbox();
 	void ScreenCollision(float screenWidth, float screenHeight);
 	void moveCharacter(float dt);
@@ -38,6 +41,7 @@ public:
 	void gameOver();
 	[[nodiscard]] float getHP() const;
 	void setSpritePosition(float x, float y);
+	bool getIsDead() const { return isDead; }
 
 	void reduceHP(float amount);
 	// const sf::Text& getGameOverText() const;
@@ -52,6 +56,7 @@ private:
 	sf::SoundBuffer collision_castraveti;
 	sf::Sound castraveti;
 	sf::SoundBuffer collision_am_spus_castraveti;
+	bool isDead = false;
 
 };
 

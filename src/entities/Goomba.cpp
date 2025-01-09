@@ -62,7 +62,8 @@ void Goomba::handleCollision(Player& player)
 {
 	if (player.topCollision(*this))
 	{
-		setIsDead();
+		player.setIsDead();
+		// setIsDead();
 		sprite.setTextureRect(sf::IntRect(0, 0, 0, 0)); // Hide Goomba
 		hitbox = sf::FloatRect(0, 0, 0, 0);
 		hitboxShape.setSize(sf::Vector2f(0, 0));

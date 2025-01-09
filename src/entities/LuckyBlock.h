@@ -15,7 +15,7 @@ public:
 	static void loadResources();
 
 	void handleCollision(Player& player);
-	void update(float dt, Player& player);
+	void update(float &dt, Player& player);
 	void render(sf::RenderTarget& target);
 
 	virtual ~LuckyBlock();

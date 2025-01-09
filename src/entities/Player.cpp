@@ -94,6 +94,10 @@ const sf::FloatRect& Player::getHitbox() const
 {
 	return hitbox;
 }
+void Player::setIsDead() {
+	isDead = true;
+}
+
 
 void Player::updateHitbox()
 {
