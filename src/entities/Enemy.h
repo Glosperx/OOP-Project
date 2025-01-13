@@ -19,23 +19,15 @@ private:
 public:
 	Enemy() = default;
 	Enemy(const sf::Texture& texture, const sf::Vector2f& position);
-
-	Enemy(const sf::Vector2f &position);
-
 	Enemy(const Enemy& other);
 	explicit Enemy(const sf::Texture& texture);
 	virtual ~Enemy();
 
-	virtual Enemy* clone() const = 0;
 	virtual void dealDamage(Player& player) =0;
 
 	virtual void handleCollision(Player& player) = 0;
 
 	void update(float dt) override;
-
-	void loadTexture(const sf::Texture &texture);
-	virtual void update(float& dt, Player& player) = 0;
-
 	virtual void render(sf::RenderWindow& window);
 	// friend std::ostream& operator<<(std::ostream& os, const Enemy& enemy);
 };

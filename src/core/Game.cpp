@@ -5,14 +5,7 @@
 #include "Koopa.h"
 #include "Player.h"
 #include "Button.h"
-#include "Exceptions.h"
 #include "Menu.h"
-#include "GameOverMenu.h"
-#include "SoundManager.h"
-#include "EnemyFactory.h"
-#include "EnemyContainer.h"
-#include "LuckyBlock.h"
-
 
 float Game::getScreenWidth() const
 {
@@ -32,32 +25,28 @@ void Game::gwindow()
 	window.create(resolution, name);
 	window.setFramerateLimit(120);
 	window.setVerticalSyncEnabled(true);
-	// sf::Texture backgroundTexture;
-	// sf::Sprite backgroundSprite;
-	// if (!backgroundTexture.loadFromFile("src/assets/backround/sky2.png"))
-	// {
-	// 	throw backroundLoadError("src/assets/backround/sky2.png");
-	// }
-	// backgroundSprite.setTexture(backgroundTexture);
-	sf::Sprite backgroundSprite = ResourceManager::backgroundSprite;
-
-	// goombaContainer.addEnemy(std::make_shared<Goomba>(sf::Vector2f(500.0f, 300.0f)));
-	// goombaContainer.addEnemy(std::make_shared<Goomba>(sf::Vector2f(900.0f, 300.0f)));
-	//
-	// koopaContainer.addEnemy(std::make_shared<Koopa>(sf::Vector2f(800.0f, 800.0f)));
-	// koopaContainer.addEnemy(std::make_shared<Koopa>(sf::Vector2f(1200.0f, 800.0f)));
-
-	// if (!soundtrack.openFromFile("src/assets/audio/supermario_soundtrack.wav"))
-	// {
-	// 	throw soundtrackLoadError("src/assets/audio/supermario_soundtrack.wav");
-	// }
+	sf::Texture backgroundTexture;
+	sf::Sprite backgroundSprite;
+	if (!backgroundTexture.loadFromFile("src/assets/backround/sky2.png"))
+	{
+		std::cerr << "Failed to load background texture" << std::endl;
+	}
+	backgroundSprite.setTexture(backgroundTexture);
 
 
-	// for (int i = 0; i < 3; ++i)
-	// {
-	// 	enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f + i * 400.0f, 300.0f)));
-	// 	enemies.push_back(std::make_shared<Koopa>(sf::Vector2f(800.0f + i * 400.0f, 800.0f)));
-	// }
+	if (!soundtrack.openFromFile("src/assets/audio/supermario_soundtrack.wav"))
+	{
+		std::cerr << "Failed to load soundtrack" << std::endl;
+	}
+
+	Goomba::loadTexture();
+	Koopa::loadTexture();
+
+	for (int i = 0; i < 3; ++i)
+	{
+		enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f + i * 400.0f, 300.0f)));
+		enemies.push_back(std::make_shared<Koopa>(sf::Vector2f(800.0f + i * 400.0f, 800.0f)));
+	}
 
 	// enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f, 300.0f)));
 	// enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(800.0f, 300.0f)));
@@ -66,30 +55,6 @@ void Game::gwindow()
 	bool isPlaying = false;
 	sf::Clock clock;
 	menu.startBackgroundMusic();
-	SoundManager soundManager;
-	GameOverMenu gameOverMenu(screenWidth, screenHeight);
-	//Factory design pattern
-	std::unique_ptr<Enemy> enemy = EnemyFactory::createEnemy("Goomba", sf::Vector2f(100.0f, 200.0f));
-	std::unique_ptr<Enemy> anotherEnemy = EnemyFactory::createEnemy("Koopa", sf::Vector2f(300.0f, 400.0f));
-
-	std::vector<std::shared_ptr<LuckyBlock>> luckyBlocks;
-	luckyBlocks.push_back(std::make_shared<LuckyBlock>(sf::Vector2f(200.0f, 300.0f)));
-	luckyBlocks.push_back(std::make_shared<LuckyBlock>(sf::Vector2f(500.0f, 300.0f)));
-
-	//template class
-	EnemyContainer<Goomba> goombaContainer;
-	EnemyContainer<Koopa> koopaContainer;
-
-	goombaContainer.addEnemy(std::make_shared<Goomba>(sf::Vector2f(1000.0f, 200.0f)));
-	koopaContainer.addEnemy(std::make_shared<Koopa>(sf::Vector2f(2000.0f, 400.0f)));
-
-	for (size_t i = 0; i < goombaContainer.getEnemyCount(); ++i) {
-		enemies.push_back(goombaContainer.getEnemy(i));
-	}
-	for (size_t i = 0; i < koopaContainer.getEnemyCount(); ++i) {
-		enemies.push_back(koopaContainer.getEnemy(i));
-	}
-
 
 	while (window.isOpen())
 	{
@@ -103,19 +68,15 @@ void Game::gwindow()
 
 		// // playButton.update(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
 		// menu.startBackgroundMusic();
-
-		//Main Menu
-		menu.update(window, isPlaying);
+		menu.handleInput(window, isPlaying);
 		if (isPlaying)
 		{
 			menu.stopBackgroundMusic();
-			// if (soundtrack.getStatus() != sf::Music::Playing)
-			// {
-			// 	soundtrack.play();
-			// 	soundtrack.setLoop(true);
-			// }
-
-			soundManager.onNotify("start_theme");
+			if (soundtrack.getStatus() != sf::Music::Playing)
+			{
+				soundtrack.play();
+				soundtrack.setLoop(true);
+			}
 			// if (soundtrack.getStatus() == sf::Music::Playing)
 			// {
 			// 	std::cout << "Music is already playing" << std::endl;
@@ -132,54 +93,39 @@ void Game::gwindow()
 			// window.clear(sf::Color::White);
 			window.clear();
 			window.draw(backgroundSprite);
-			goombaContainer.updateEnemies(dt, Mario);
-			goombaContainer.renderEnemies(window);
-
-			koopaContainer.updateEnemies(dt,Mario);
-			koopaContainer.renderEnemies(window);
-
-
 
 
 			Mario.update(dt, screenWidth, screenHeight, enemies);
 			for (auto& enemy : enemies)
 			{
-				enemy->update(dt);
-				enemy->render(window);
 				enemy->handleCollision(Mario);
 			}
 
-			for (auto& luckyBlock : luckyBlocks) {
-				luckyBlock->update(dt, Mario);
-				luckyBlock->render(window);
+
+			for (auto& enemy : enemies)
+			{
+				enemy->update(dt);
+				enemy->render(window);
 			}
 
 			if (Mario.getIsDead())
 			{
-				// soundtrack.stop();
-				soundManager.onNotify("stop_theme");
-				gameOverMenu.update(window);
-				gameOverMenu.render(window);
-				// Mario.setupGameOverText(window);
-				// window.draw(Mario.getGameOverText());
-				Mario.render(window);
+				soundtrack.stop();
+				Mario.setupGameOverText(window);
+				window.draw(Mario.getGameOverText());
 			}
-			else
-			{
-				Mario.render(window);
-			}
+
 			// playButton.render(window);
 			// window.clear();
-			// Mario.render(window);
+			Mario.render(window);
 			window.display();
 		}
 		else
 		{
 			window.clear();
 
-			menu.update(window,isPlaying);
+			menu.update(window);
 			menu.render(window);
-			// isPlaying = false;
 
 			window.display();
 		}

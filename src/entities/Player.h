@@ -6,10 +6,9 @@
 #define PLAYER_H
 #include "Entity.h"
 #include "Enemy.h"
-#include "Exceptions.h"
-#include "Subject.h"
 
-class Player : public Entity,public Subject
+
+class Player : public Entity
 {
 public:
 	Player() = default ;
@@ -24,9 +23,6 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Player& player);
 	sf::Vector2f getPosition() const;
 	const sf::FloatRect& getHitbox() const;
-
-	void setIsDead();
-
 	void updateHitbox();
 	void ScreenCollision(float screenWidth, float screenHeight);
 	void moveCharacter(float dt);
@@ -35,16 +31,14 @@ public:
 	// void handleCollisionWithEnemy(const std::shared_ptr<Enemy>& enemy);
 
 	void loadResources();
-	void setPosition(float x, float y);
 
-	// void setupGameOverText(sf::RenderWindow& window);
+	void setupGameOverText(sf::RenderWindow& window);
 	void gameOver();
 	[[nodiscard]] float getHP() const;
 	void setSpritePosition(float x, float y);
-	bool getIsDead() const { return isDead; }
 
 	void reduceHP(float amount);
-	// const sf::Text& getGameOverText() const;
+	const sf::Text& getGameOverText() const;
 
 private:
 	float hp = 100;
@@ -56,8 +50,6 @@ private:
 	sf::SoundBuffer collision_castraveti;
 	sf::Sound castraveti;
 	sf::SoundBuffer collision_am_spus_castraveti;
-	bool isDead = false;
-
 };
 
 

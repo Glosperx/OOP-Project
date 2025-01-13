@@ -27,7 +27,7 @@ void Button::loadResources(const std::string& fontPath)
 {
 	if (!buttonFont.loadFromFile(fontPath))
 	{
-		throw buttonFontLoadError(fontPath);
+		std::cout << "Error loading button font" << std::endl;
 	}
 	buttonText.setFont(buttonFont);
 }

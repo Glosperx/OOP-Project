@@ -1,25 +1,26 @@
 #include "Menu.h"
+#include "pch.h"
 
 Menu::Menu(float width, float height)
 	: playButton(300, 200, 200, 50, "Play", font, sf::Color::Blue, sf::Color::Green, sf::Color::Red),
 	  quitButton(300, 300, 200, 50, "Quit", font, sf::Color::Blue, sf::Color::Green, sf::Color::Red)
 {
 	background.setSize(sf::Vector2f(width, height));
-	Menu::loadResources();
+	loadResources();
 }
 
 void Menu::loadResources()
 {
 	if (!backgroundTexture.loadFromFile("src/assets/textures/castle.png"))
 	{
-		throw menuBackroundLoadError("src/assets/textures/castle.png");
+		std::cerr << "Failed to load background texture" << std::endl;
 	}
 
 	background.setTexture(&backgroundTexture);
 
 	if (!backgroundMusic.openFromFile("src/assets/audio/theme_song.wav"))
 	{
-		throw musicLoadError("src/assets/audio/theme_song.wav");
+		std::cerr << "Failed to load background music" << std::endl;
 	}
 }
 
@@ -35,7 +36,7 @@ void Menu::stopBackgroundMusic()
 }
 
 
-void Menu::update(sf::RenderWindow& window, bool& isPlaying)
+void Menu::handleInput(sf::RenderWindow& window, bool& isPlaying)
 {
 	sf::Vector2f mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
 
@@ -50,6 +51,13 @@ void Menu::update(sf::RenderWindow& window, bool& isPlaying)
 	{
 		window.close();
 	}
+}
+
+void Menu::update(sf::RenderWindow& window)
+{
+	sf::Vector2f mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+	playButton.update(mousePos);
+	quitButton.update(mousePos);
 }
 
 void Menu::render(sf::RenderWindow& window)

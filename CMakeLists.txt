@@ -57,26 +57,11 @@ add_executable(${PROJECT_NAME}
         src/entities/Goomba.cpp
         src/entities/Koopa.cpp
         src/entities/Koopa.h
-        src/core/Exceptions.h
         src/core/Button.cpp
         src/core/Button.h
         src/core/Menu.cpp
         src/core/Menu.h
-        src/core/ResourceManager.cpp
-        src/core/ResourceManager.h
-        src/entities/Health.h
-        src/core/GameOverMenu.cpp
-        src/core/GameOverMenu.h
-        src/entities/LuckyBlock.cpp
-        src/entities/LuckyBlock.h
-        src/core/Subject.cpp
-        src/core/Subject.h
-        src/core/Observer.h
-        src/core/SoundManager.cpp
-        src/core/SoundManager.h
-        src/core/EnemyFactory.cpp
-        src/core/EnemyFactory.h
-        src/core/EnemyContainer.h
+
 )
 
 include(cmake/CompilerFlags.cmake)

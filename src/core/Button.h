@@ -2,7 +2,6 @@
 #define BUTTON_H
 
 #include "Entity.h"
-#include "Exceptions.h"
 
 class Button
 {
@@ -23,7 +22,7 @@ public:
 	       const sf::Color& idleColor, const sf::Color& hoverColor, const sf::Color& pressedColor);
 	void loadResources(const std::string& fontPath);
 
-		bool isPressed(const sf::Vector2f& mousePos) const;
+	bool isPressed(const sf::Vector2f& mousePos) const;
 
 	void update(sf::Vector2f mousePos);
 	void render(sf::RenderTarget& target);

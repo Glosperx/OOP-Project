@@ -25,7 +25,6 @@ public:
 	Entity(const Entity& other);
 
 	Entity& operator=(Entity other);
-	void swap(Entity& other);
 
 	Entity(const sf::Vector2f& initialPosition, float initialSpeed)
 		: velocity(0.f, 0.f), speed(initialSpeed)

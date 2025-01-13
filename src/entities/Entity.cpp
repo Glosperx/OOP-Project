@@ -23,23 +23,6 @@ Entity::Entity(const Entity& other)
 }
 
 
-void Entity::swap(Entity& other)
-{
-	std::swap(sprite, other.sprite);
-	std::swap(hitbox, other.hitbox);
-	std::swap(hitboxShape, other.hitboxShape);
-	std::swap(velocity, other.velocity);
-	std::swap(speed, other.speed);
-	std::swap(isDead, other.isDead);
-}
-
-Entity& Entity::operator=(Entity other)
-{
-	std::swap(*this, other);
-	return *this;
-}
-
-
 void Entity::setSpeed(float _speed)
 {
 	this->speed = _speed;

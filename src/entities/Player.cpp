@@ -1,19 +1,11 @@
 #include "Player.h"
 #include "Goomba.h"
-#include "Exceptions.h"
-#include "ResourceManager.h"
-#include "SoundManager.h"
 
 Player::Player(const sf::Vector2f& position)
 	: Entity(position, 1500.0f)
 {
-	// playertexture.loadFromFile("C:/Users/glosper/Documents/GitHub/OOP-Project/assets/textures/amongus1.png");
-	// playertexture.loadFromFile("assets/textures/amongus1.png");
-
-	loadResources();
-
-	// sprite.setTexture(playertexture);
-	sprite.setTexture(ResourceManager::playertexture);
+	playertexture.loadFromFile("src/assets/textures/amongus1.png");
+	sprite.setTexture(playertexture);
 	sprite.setPosition(position);
 	sprite.setScale(0.5f, 0.5f);
 	hp = 100;
@@ -28,55 +20,24 @@ Player::Player(const sf::Vector2f& position)
 	setIsAlive();
 }
 
-// Resources loading
-// void Player::loadResources()
-// {
-	// if (!playertexture.loadFromFile("src/assets/textures/amongus1.png"))
-	// {
-	// 	throw resourceLoadError("src/assets/textures/amongus1.png");
-	// }
-	//
-	// if (!collision_castraveti.loadFromFile("src/assets/audio/ultimul_castravete.wav"))
-	// {
-	// 	throw resourceLoadError("src/assets/audio/ultimul_castravete.wav");
-	// }
-	//
-	// if (!collision_am_spus_castraveti.loadFromFile("src/assets/audio/am_spus_castraveti.wav"))
-	// {
-	// 	throw resourceLoadError("src/assets/audio/am_spus_castraveti.wav");
-	// }
-	//
-	// if (!gameOverFont.loadFromFile("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf"))
-	// {
-	// 	throw fontLoadError("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf");
-	// }
-// }
-
-
-void Player::loadResources()
+void Player::setupGameOverText(sf::RenderWindow& window)
 {
-	ResourceManager::loadResources();
+	gameOverFont.loadFromFile("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf");
+	gameOverText.setFont(gameOverFont);
+	gameOverText.setString("Game Over");
+	gameOverText.setCharacterSize(100);
+	gameOverText.setFillColor(sf::Color::Red);
+	gameOverText.setStyle(sf::Text::Bold);
+
+	sf::FloatRect textBounds = gameOverText.getLocalBounds();
+	gameOverText.setOrigin(textBounds.width / 2.0f, textBounds.height / 2.0f);
+	gameOverText.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 }
 
-
-// void Player::setupGameOverText(sf::RenderWindow& window)
-// {
-// 	gameOverText.setFont(ResourceManager::gameOverFont);
-// 	// gameOverText.setFont(gameOverFont);
-// 	gameOverText.setString("Game Over");
-// 	gameOverText.setCharacterSize(100);
-// 	gameOverText.setFillColor(sf::Color::Red);
-// 	gameOverText.setStyle(sf::Text::Bold);
-//
-// 	sf::FloatRect textBounds = gameOverText.getLocalBounds();
-// 	gameOverText.setOrigin(textBounds.width / 2.0f, textBounds.height / 2.0f);
-// 	gameOverText.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
-// }
-//
-// const sf::Text& Player::getGameOverText() const
-// {
-// 	return gameOverText;
-// }
+const sf::Text& Player::getGameOverText() const
+{
+	return gameOverText;
+}
 
 
 void Player::setSpritePosition(float x, float y)
@@ -94,10 +55,6 @@ const sf::FloatRect& Player::getHitbox() const
 {
 	return hitbox;
 }
-void Player::setIsDead() {
-	isDead = true;
-}
-
 
 void Player::updateHitbox()
 {
@@ -136,39 +93,32 @@ void Player::ScreenCollision(float screenWidth, float screenHeight)
 		collided = true;
 	}
 
-	// if (collided)
-	// {
-	// 	hitboxShape.setOutlineThickness(50);
-	//
-	// 	if (collisionCount % 2)
-	// 	{
-	// 		// castraveti.setBuffer(collision_am_spus_castraveti);
-	// 		castraveti.setBuffer(ResourceManager::collision_am_spus_castraveti);
-	// 		// collisionCount++;
-	// 	}
-	// 	else
-	// 	{
-	// 		// castraveti.setBuffer(collision_castraveti);
-	// 		castraveti.setBuffer(ResourceManager::collision_castraveti);
-	// 		// collisionCount++;
-	// 	}
+	if (collided)
+	{
+		hitboxShape.setOutlineThickness(50);
 
-	if (collided) {
-		SoundManager soundManager;
-		if (collisionCount % 2 == 0) {
-			notifyObservers("collision_even");
-			soundManager.onNotify("collision_even");
-		} else {
-			notifyObservers("collision_odd");
-			soundManager.onNotify("collision_odd");
+		if (collisionCount % 2)
+		{
+			// castraveti.setBuffer(collision_am_spus_castraveti);
+			castraveti.setBuffer(collision_castraveti);
+			// collisionCount++;
+		}
+		else
+		{
+			// castraveti.setBuffer(collision_castraveti);
+			castraveti.setBuffer(collision_am_spus_castraveti);
+
+			// collisionCount++;
 		}
 
+		castraveti.play();
 		collisionCount++;
-	}
-
-		// castraveti.play();
-		// collisionCount++;
 		std::cout << collisionCount << std::endl;
+	}
+	else
+	{
+		hitboxShape.setOutlineThickness(2);
+	}
 
 	sprite.setPosition(pos);
 	hitboxShape.setPosition(pos);
@@ -290,10 +240,6 @@ void Player::update(float& dt, float screenWidth, float screenHeight,
 
 	hitboxShape.setPosition(sprite.getPosition());
 }
-void Player::setPosition(float x, float y) {
-	sprite.setPosition(x, y);
-}
-
 
 
 void Player::render(sf::RenderWindow& window)
@@ -303,7 +249,7 @@ void Player::render(sf::RenderWindow& window)
 
 	if (getIsDead())
 	{
-		// setupGameOverText(window);
+		setupGameOverText(window);
 		window.draw(gameOverText);
 	}
 }
@@ -315,7 +261,6 @@ void Player::reduceHP(float amount)
 	{
 		hp = 0;
 		setIsDead();
-		notifyObservers("player_dead");
 		std::cout << "Player is dead!\n";
 	}
 }

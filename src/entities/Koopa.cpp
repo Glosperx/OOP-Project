@@ -4,21 +4,20 @@
 
 #include "Koopa.h"
 #include "Player.h"
-#include "ResourceManager.h"
 
 sf::Texture Koopa::koopaTexture;
 
-// void Koopa::loadTexture()
-// {
-// 	if (!koopaTexture.loadFromFile("src/assets/textures/koopa.png"))
-// 	{
-// 		throw std::runtime_error("Failed to load Goomba texture");
-// 	}
-// }
-
-Koopa::Koopa(const sf::Vector2f& position): Enemy(position)
+void Koopa::loadTexture()
 {
-	sprite.setTexture(ResourceManager::koopaTexture);
+	if (!koopaTexture.loadFromFile("src/assets/textures/koopa.png"))
+	{
+		std::cout << "Koopa:Failed to load texture" << std::endl;
+	}
+}
+
+Koopa::Koopa(const sf::Vector2f& position): Enemy(koopaTexture, position)
+{
+	sprite.setTexture(koopaTexture);
 	sprite.setPosition(position);
 	sprite.setScale(0.1f, 0.1f);
 
@@ -31,17 +30,6 @@ Koopa::Koopa(const sf::Vector2f& position): Enemy(position)
 
 	setIsAlive(); //Koopa alive
 }
-void Koopa::loadResources()
-{
-	ResourceManager::loadResources();
-}
-
-
-Koopa* Koopa::clone() const
-{
-	return new Koopa(*this);
-}
-
 
 void Koopa::dealDamage(Player& player)
 {
