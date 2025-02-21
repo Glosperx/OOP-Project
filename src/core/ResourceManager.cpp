@@ -6,6 +6,7 @@ sf::SoundBuffer ResourceManager::collision_castraveti;
 sf::SoundBuffer ResourceManager::collision_am_spus_castraveti;
 sf::Font ResourceManager::gameOverFont;
 sf::Texture ResourceManager::luckyBlockTexture;
+sf::Texture ResourceManager::emptyTexture;
 
 void ResourceManager::loadResources()
 {
@@ -31,6 +32,11 @@ void ResourceManager::loadResources()
 		if (!gameOverFont.loadFromFile("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf"))
 		{
 			throw fontLoadError("src/assets/font/TT-Rounds-Neue-Trial-Compressed-Medium-BF6438a17188007.ttf");
+		}
+
+		if (!emptyTexture.loadFromFile("src/assets/textures/empty.png"))
+		{
+			throw resourceLoadError("src/assets/textures/empty.png");
 		}
 	}
 	catch (const gameError& e) {

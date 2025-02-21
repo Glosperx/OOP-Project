@@ -8,6 +8,7 @@
 #include "Exceptions.h"
 #include "Menu.h"
 #include "GameOverMenu.h"
+#include "../Map/Map.h"
 
 float Game::getScreenWidth() const
 {
@@ -98,6 +99,7 @@ void Game::gwindow()
 			window.clear();
 			window.draw(backgroundSprite);
 
+			gameMap.render(window);
 
 			Mario.update(dt, screenWidth, screenHeight, enemies);
 			for (auto& enemy : enemies)

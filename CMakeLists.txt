@@ -69,6 +69,10 @@ add_executable(${PROJECT_NAME}
         src/core/GameOverMenu.h
         src/entities/LuckyBlock.cpp
         src/entities/LuckyBlock.h
+        src/Map/Tile.cpp
+        src/Map/Tile.h
+        src/Map/Map.cpp
+        src/Map/Map.h
 )
 
 include(cmake/CompilerFlags.cmake)

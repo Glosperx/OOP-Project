@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "../Map/Map.h"
 
 class Game
 {
@@ -16,7 +17,7 @@ private:
 	std::string name;
 	Player Mario;
 	sf::Music soundtrack;
-
+	Map gameMap;
 
 	const float screenWidth = 1920.f;
 	const float screenHeight = 1080.f;
