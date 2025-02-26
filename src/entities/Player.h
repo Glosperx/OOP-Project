@@ -8,6 +8,8 @@
 #include "Enemy.h"
 #include "Exceptions.h"
 
+class LuckyBlock;
+
 
 class Player : public Entity
 {
@@ -17,6 +19,7 @@ public:
 	virtual ~Player() override = default;
 
 	void update(float& dt, float screenWidth, float screenHeight, const std::vector<std::shared_ptr<Enemy>>& enemies);
+	// void update(float& dt, float screenWidth, float screenHeight, const std::vector<std::shared_ptr<Entity>>& entities);
 	// virtual void update(float &dt) override;
 	using Entity::update;
 	// void update(float& dt, float screenWidth, float screenHeight, const Entity& otherEntity);
@@ -27,7 +30,9 @@ public:
 	void updateHitbox();
 	void ScreenCollision(float screenWidth, float screenHeight);
 	void moveCharacter(float dt);
+
 	bool handleCollisionWithEnemy(const std::vector<std::shared_ptr<Enemy>>& enemies);
+	bool handleCollisionWithLuckyBlock(const std::vector<std::shared_ptr<LuckyBlock>>& luckyblocks);
 
 	// void handleCollisionWithEnemy(const std::shared_ptr<Enemy>& enemy);
 

@@ -9,6 +9,7 @@
 #include "Menu.h"
 #include "GameOverMenu.h"
 #include "../Map/Map.h"
+#include "../Map/LuckyBlock.h"
 
 float Game::getScreenWidth() const
 {
@@ -49,7 +50,11 @@ void Game::gwindow()
 	{
 		enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f + i * 400.0f, 300.0f)));
 		enemies.push_back(std::make_shared<Koopa>(sf::Vector2f(800.0f + i * 400.0f, 800.0f)));
+		// luckyblocks.push_back(std::make_shared<LuckyBlock>(sf::Vector2f(100.0f + i * 400.0f, 600.0f)));
 	}
+
+	luckyblocks.push_back(std::make_shared<LuckyBlock>(sf::Vector2f(100.f, 200.f)));  // Creează un shared_ptr pentru LuckyBlock
+	luckyblocks.push_back(std::make_shared<LuckyBlock>(sf::Vector2f(300.f, 200.f)));  // Alt shared_ptr
 
 	// enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(500.0f, 300.0f)));
 	// enemies.push_back(std::make_shared<Goomba>(sf::Vector2f(800.0f, 300.0f)));
@@ -99,13 +104,25 @@ void Game::gwindow()
 			window.clear();
 			window.draw(backgroundSprite);
 
-			gameMap.render(window);
+			// gameMap.render(window);
 
 			Mario.update(dt, screenWidth, screenHeight, enemies);
-			for (auto& enemy : enemies)
+			// for (auto& enemy : enemies)
+			// {
+			// 	enemy->handleCollision(Mario);
+			// }
+
+			// for (auto& luckyBlock : luckyblocks)
+			// {
+			// 	luckyBlock->handleCollision(Mario);
+			// }
+
+			for (auto& luckyBlock : luckyblocks)
 			{
-				enemy->handleCollision(Mario);
+				luckyBlock->update(dt, Mario);
+				luckyBlock->render(window);
 			}
+
 
 
 			for (auto& enemy : enemies)

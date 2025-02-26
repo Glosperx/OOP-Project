@@ -7,6 +7,7 @@
 
 #include "pch.h"
 
+class Player;
 class Enemy;
 
 class Entity
@@ -53,6 +54,7 @@ public:
 
 
 	sf::Vector2f getVelocity() const;
+	// virtual void handleCollision(Player& player) ;
 
 	virtual bool rightCollision(const Entity& other) const;
 	virtual bool leftCollision(const Entity& other) const;

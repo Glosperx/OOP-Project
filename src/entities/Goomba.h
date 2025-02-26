@@ -18,11 +18,13 @@ public:
 
 	void dealDamage(Player& player) override;
 	void takeDamage();
-	void update(float& dt, Player& player);
+	void update(float dt, Player& player);
 
 	virtual Goomba* clone() const override;
 	void handleCollision(Player& player) override;
 	void render(sf::RenderWindow& window) override;
+
+	virtual ~Goomba();
 
 private:
 	float hp = 10;

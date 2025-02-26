@@ -67,8 +67,8 @@ add_executable(${PROJECT_NAME}
         src/entities/Health.h
         src/core/GameOverMenu.cpp
         src/core/GameOverMenu.h
-        src/entities/LuckyBlock.cpp
-        src/entities/LuckyBlock.h
+        src/Map/LuckyBlock.cpp
+        src/Map/LuckyBlock.h
         src/Map/Tile.cpp
         src/Map/Tile.h
         src/Map/Map.cpp

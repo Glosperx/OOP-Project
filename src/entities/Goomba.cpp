@@ -57,7 +57,7 @@ void Goomba::handleCollision(Player& player)
 	if (player.topCollision(*this))
 	{
 		setIsDead();
-		sprite.setTextureRect(sf::IntRect(0, 0, 0, 0)); // Ascunde Goomba
+		sprite.setTextureRect(sf::IntRect(0, 0, 0, 0)); // Hide Goomba
 		hitbox = sf::FloatRect(0, 0, 0, 0);
 		hitboxShape.setSize(sf::Vector2f(0, 0));
 		// std::cout << "Goomba died\n";
@@ -65,7 +65,7 @@ void Goomba::handleCollision(Player& player)
 }
 
 
-void Goomba::update([[maybe_unused]] float& dt, Player& player)
+void Goomba::update([[maybe_unused]] float dt, Player& player)
 {
 	if (getIsDead())
 	{
@@ -91,4 +91,8 @@ void Goomba::render(sf::RenderWindow& window)
 
 	window.draw(sprite);
 	window.draw(hitboxShape);
+}
+
+Goomba::~Goomba() {
+
 }

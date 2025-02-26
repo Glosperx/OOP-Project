@@ -2,6 +2,7 @@
 #include "Goomba.h"
 #include "Exceptions.h"
 #include "ResourceManager.h"
+#include "../Map/LuckyBlock.h"
 
 Player::Player(const sf::Vector2f& position)
 	: Entity(position, 1500.0f)
@@ -263,11 +264,55 @@ bool Player::handleCollisionWithEnemy(const std::vector<std::shared_ptr<Enemy>>&
 	return collided;
 }
 
+bool Player::handleCollisionWithLuckyBlock(const std::vector<std::shared_ptr<LuckyBlock>>& luckyblocks)
+{
+	bool collided = false;
 
+	for (const auto& luckyBlock : luckyblocks)
+	{
+		if (luckyBlock->getIsDead())
+		{
+			continue;
+		}
+
+		if (Entity::isColliding(*this, *luckyBlock))
+		{
+			if (bottomCollision(*luckyBlock))
+			{
+				collided = true;
+
+				luckyBlock->setIsDead();
+				std::cout << "LuckyBlock izim?\n";
+			}
+
+		}
+	}
+
+	return collided;
+}
+
+
+
+// void Player::update(float& dt, float screenWidth, float screenHeight,
+//                     const std::vector<std::shared_ptr<Enemy>>& enemies)
+// {
+// 	updateHitbox();
+//
+// 	if (!handleCollisionWithEnemy(enemies))
+// 	{
+// 		moveCharacter(dt);
+// 	}
+// 	ScreenCollision(screenWidth, screenHeight);
+//
+// 	hitboxShape.setPosition(sprite.getPosition());
+// }
 void Player::update(float& dt, float screenWidth, float screenHeight,
-                    const std::vector<std::shared_ptr<Enemy>>& enemies)
+					const std::vector<std::shared_ptr<Entity>>& entities)
 {
 	updateHitbox();
+
+	std::vector<std::shared_ptr<Enemy>> enemies;
+	std::vector<std::shared_ptr<LuckyBlock>> luckyBlocks;
 
 	if (!handleCollisionWithEnemy(enemies))
 	{
@@ -277,6 +322,7 @@ void Player::update(float& dt, float screenWidth, float screenHeight,
 
 	hitboxShape.setPosition(sprite.getPosition());
 }
+
 
 
 void Player::render(sf::RenderWindow& window)

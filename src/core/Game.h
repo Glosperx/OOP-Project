@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "../Map/LuckyBlock.h"
 #include "../Map/Map.h"
 
 class Game
@@ -11,13 +12,14 @@ class Game
 private:
 	void gwindow();
 	std::vector<std::shared_ptr<Enemy>> enemies;
+	std::vector<std::shared_ptr<LuckyBlock>> luckyblocks;
 	sf::RenderWindow window;
 	sf::Event event{};
 	sf::Clock clock;
 	std::string name;
 	Player Mario;
 	sf::Music soundtrack;
-	Map gameMap;
+	// Map gameMap;
 
 	const float screenWidth = 1920.f;
 	const float screenHeight = 1080.f;
