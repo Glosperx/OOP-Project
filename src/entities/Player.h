@@ -18,8 +18,8 @@ public:
 	explicit Player(const sf::Vector2f& position);
 	virtual ~Player() override = default;
 
-	void update(float& dt, float screenWidth, float screenHeight, const std::vector<std::shared_ptr<Enemy>>& enemies);
-	// void update(float& dt, float screenWidth, float screenHeight, const std::vector<std::shared_ptr<Entity>>& entities);
+	// void update(float& dt, float screenWidth, float screenHeight, const std::vector<std::shared_ptr<Enemy>>& enemies);
+	void update(float& dt, float screenWidth, float screenHeight, const std::vector<std::shared_ptr<Entity>>& entities);
 	// virtual void update(float &dt) override;
 	using Entity::update;
 	// void update(float& dt, float screenWidth, float screenHeight, const Entity& otherEntity);

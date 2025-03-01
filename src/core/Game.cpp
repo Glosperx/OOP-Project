@@ -21,6 +21,46 @@ float Game::getScreenHeight() const
 	return screenHeight;
 }
 
+// void Game::updateEntities() {
+// 	entities.clear();
+//
+// 	for (const auto& Enemy : enemies) {
+// 		entities.push_back(Enemy);
+// 	}
+//
+// 	for (const auto& LuckyBlock : luckyblocks) {
+// 		entities.push_back(LuckyBlock);
+// 	}
+// }
+
+void Game::updateEntities() {
+
+	for (auto it = entities.begin(); it != entities.end(); )
+	{
+		if ((*it)->getIsDead()) {
+			it = entities.erase(it);
+		} else {
+			++it;
+		}
+	}
+
+	entities.clear();
+
+	for (const auto& enemy : enemies) {
+		if (!enemy->getIsDead()) {
+			entities.push_back(enemy);
+		}
+	}
+
+	for (const auto& luckyBlock : luckyblocks) {
+		if (!luckyBlock->getIsDead()) {
+			entities.push_back(luckyBlock);
+		}
+	}
+}
+
+
+
 void Game::gwindow()
 {
 	//fullscreen
@@ -106,7 +146,13 @@ void Game::gwindow()
 
 			// gameMap.render(window);
 
-			Mario.update(dt, screenWidth, screenHeight, enemies);
+			updateEntities();
+			Mario.update(dt, screenWidth, screenHeight, entities);
+
+			for (const auto& entity : entities) {
+				entity->update(dt);
+				entity->render(window);
+			}
 			// for (auto& enemy : enemies)
 			// {
 			// 	enemy->handleCollision(Mario);
@@ -116,6 +162,7 @@ void Game::gwindow()
 			// {
 			// 	luckyBlock->handleCollision(Mario);
 			// }
+
 
 			for (auto& luckyBlock : luckyblocks)
 			{

@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include <SFML/Graphics.hpp>
 
 class Koopa : public Enemy
 {
@@ -19,7 +18,7 @@ public:
 	void render(sf::RenderWindow& window);
 
 private:
-	float hp = 20; // Adjust HP if needed
+	float hp = 20;
 	sf::Sprite sprite;
 	static sf::Texture koopaTexture;
 	sf::FloatRect hitbox;

@@ -314,10 +314,28 @@ void Player::update(float& dt, float screenWidth, float screenHeight,
 	std::vector<std::shared_ptr<Enemy>> enemies;
 	std::vector<std::shared_ptr<LuckyBlock>> luckyBlocks;
 
+	for (const auto& entity : entities)
+	{
+		if (auto enemy = std::dynamic_pointer_cast<Enemy>(entity))
+		{
+			enemies.push_back(enemy);
+		}
+		else if (auto luckyBlock = std::dynamic_pointer_cast<LuckyBlock>(entity))
+		{
+			luckyBlocks.push_back(luckyBlock);
+		}
+	}
+
 	if (!handleCollisionWithEnemy(enemies))
 	{
 		moveCharacter(dt);
 	}
+
+	for (auto& block : luckyBlocks)
+	{
+		block->handleCollision(*this);
+	}
+
 	ScreenCollision(screenWidth, screenHeight);
 
 	hitboxShape.setPosition(sprite.getPosition());

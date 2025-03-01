@@ -11,6 +11,8 @@ class Game
 {
 private:
 	void gwindow();
+
+	std::vector<std::shared_ptr<Entity>> entities;
 	std::vector<std::shared_ptr<Enemy>> enemies;
 	std::vector<std::shared_ptr<LuckyBlock>> luckyblocks;
 	sf::RenderWindow window;
@@ -35,6 +37,8 @@ public:
 	void render();
 	float getScreenWidth() const;
 	float getScreenHeight() const;
+
+	void updateEntities();
 
 	friend std::ostream& operator<<(std::ostream& os, const Game& game);
 };
