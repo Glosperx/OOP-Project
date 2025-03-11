@@ -13,7 +13,7 @@ LuckyBlock::LuckyBlock(const sf::Vector2f& position)
 
 	sprite.setTexture(ResourceManager::luckyBlockTexture);
 	sprite.setPosition(position);
-	sprite.setScale(1.5f, 1.5f);
+	sprite.setScale(0.5f, 0.5f);
 
 	// Hitbox
 	hitbox = sprite.getGlobalBounds();

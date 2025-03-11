@@ -84,3 +84,7 @@ void Koopa::render(sf::RenderWindow& window)
 	window.draw(sprite);
 	window.draw(hitboxShape);
 }
+
+Koopa::~Koopa() {
+
+}

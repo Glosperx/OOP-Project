@@ -17,6 +17,8 @@ public:
 	void update(float& dt, Player& player);
 	void render(sf::RenderWindow& window);
 
+	virtual ~Koopa();
+
 private:
 	float hp = 20;
 	sf::Sprite sprite;

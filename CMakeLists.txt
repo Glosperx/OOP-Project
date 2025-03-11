@@ -73,6 +73,12 @@ add_executable(${PROJECT_NAME}
         src/Map/Tile.h
         src/Map/Map.cpp
         src/Map/Map.h
+        src/Map/Ground.cpp
+        src/Map/Ground.h
+        src/Map/Block.cpp
+        src/Map/Block.h
+        src/Map/Coin.cpp
+        src/Map/Coin.h
 )
 
 include(cmake/CompilerFlags.cmake)

@@ -336,6 +336,10 @@ void Player::update(float& dt, float screenWidth, float screenHeight,
 		block->handleCollision(*this);
 	}
 
+	if (!handleCollisionWithLuckyBlock(luckyBlocks))
+	{
+		moveCharacter(dt);
+	}
 	ScreenCollision(screenWidth, screenHeight);
 
 	hitboxShape.setPosition(sprite.getPosition());

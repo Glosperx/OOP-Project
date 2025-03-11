@@ -13,6 +13,8 @@ public:
 	static sf::Font gameOverFont;
 	static sf::Texture luckyBlockTexture;
 	static sf::Texture emptyTexture;
+	static sf::Texture groundTexture;
+
 	static void loadResources();
 };
 

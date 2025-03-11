@@ -7,6 +7,7 @@ sf::SoundBuffer ResourceManager::collision_am_spus_castraveti;
 sf::Font ResourceManager::gameOverFont;
 sf::Texture ResourceManager::luckyBlockTexture;
 sf::Texture ResourceManager::emptyTexture;
+sf::Texture ResourceManager::groundTexture;
 
 void ResourceManager::loadResources()
 {
@@ -37,6 +38,10 @@ void ResourceManager::loadResources()
 		if (!emptyTexture.loadFromFile("src/assets/textures/empty.png"))
 		{
 			throw resourceLoadError("src/assets/textures/empty.png");
+		}
+		if (!groundTexture.loadFromFile("src/assets/textures/empty.png"))
+		{
+			throw resourceLoadError("src/assets/textures/Tileset_3.png");
 		}
 	}
 	catch (const gameError& e) {
