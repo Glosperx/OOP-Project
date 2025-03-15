@@ -1,6 +1,8 @@
-# Super Mario Game (SFML)
+# Super Mario Game (SFML) - Still in Development
 
-This project is a Super Mario-inspired game developed using SFML (Simple and Fast Multimedia Library) for C++. The game features custom graphics, audio effects for different collisions, and a main menu, while incorporating gameplay elements and mechanics similar to the classic Super Mario games.
+This project is a Super Mario-inspired game developed using SFML (Simple and Fast Multimedia Library) for C++. The game features custom graphics, audio effects for different collisions, and a main menu, while incorporating gameplay elements and mechanics similar to the classic Super Mario games.  
+
+The project is still in development, and new features and improvements are being added.
 
 ## Features
 
