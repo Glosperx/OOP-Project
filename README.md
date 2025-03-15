@@ -24,6 +24,60 @@ This project is a Super Mario-inspired game developed using SFML (Simple and Fas
    - The main menu allows the player to choose between starting the game or quitting.
    - It features a background image, interactive buttons, and plays background music.
 
+# Compilation Instructions
+
+The project is configured with CMake.
+
+## Terminal Instructions:
+
+### Required Libraries on Linux (assuming a Debian-based OS)
+
+```sh
+sudo apt-get update && \
+  sudo apt-get install libxrandr-dev \
+    libxcursor-dev \
+    libudev-dev \
+    libopenal-dev \
+    libflac-dev \
+    libvorbis-dev \
+    libgl1-mesa-dev \
+    libegl1-mesa-dev \
+    libdrm-dev \
+    libgbm-dev \
+    libfreetype6-dev
+```
+
+If additional libraries are missing, delete the build folder from step 1 and reconfigure the project after installing the missing dependencies.
+
+### Configuration Step
+
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+```
+
+Or on Windows with GCC:
+
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -G Ninja
+```
+
+At this step, we can request the generation of project files for various development environments.
+
+### Compilation Step
+
+```sh
+cmake --build build --config Debug --parallel 6
+```
+
+The `parallel` option specifies the number of files compiled in parallel.
+
+### Installation Step (Optional)
+
+```sh
+cmake --install build --config Debug --prefix install_dir
+```
+
+
 ### 5. **Audio Integration**
    - The game includes background music that plays in both the main menu and during gameplay.
    - Different audio effects are played depending on the type of collision, such as when the player jumps on an enemy, collects a coin, or hits an object.
