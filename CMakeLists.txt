@@ -79,6 +79,8 @@ add_executable(${PROJECT_NAME}
         src/Map/Block.h
         src/Map/Coin.cpp
         src/Map/Coin.h
+        ext/AStar/AStar.cpp
+        ext/AStar/AStar.h
 )
 
 include(cmake/CompilerFlags.cmake)

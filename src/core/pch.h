@@ -12,5 +12,9 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <algorithm>
+#include <math.h>
+#include <functional>
+#include <set>
 
 #endif //PCH_H
